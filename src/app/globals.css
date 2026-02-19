@@ -1,0 +1,86 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Pretendard:wght@300;400;500;600&display=swap");
+@import "tailwindcss";
+
+@theme inline {
+  --color-cream: #faf8f3;
+  --color-ivory: #f5f0e8;
+  --color-beige: #e8dfd3;
+  --color-warm-white: #fdfcfa;
+  --color-warm-gray: #9c9589;
+
+  --color-sage-50: #f6f7f4;
+  --color-sage-100: #e8ebe3;
+  --color-sage-200: #d1d7c7;
+  --color-sage-300: #b3bda2;
+  --color-sage-400: #95a37d;
+  --color-sage-500: #7a8b63;
+  --color-sage-600: #5f6e4d;
+  --color-sage-700: #4b573e;
+
+  --color-brown-light: #a89279;
+  --color-brown: #8b7355;
+  --color-brown-dark: #6b5640;
+
+  --font-serif: "Noto Serif KR", Georgia, serif;
+  --font-sans: "Pretendard", "Noto Sans KR", sans-serif;
+
+  --animate-fade-in: fadeIn 0.8s ease-out forwards;
+  --animate-fade-in-up: fadeInUp 0.8s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background-color: var(--color-cream);
+  color: var(--color-brown-dark);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 0;
+  background: transparent;
+}
+
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.animate-on-scroll.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 스크롤바 숨김 유틸리티 */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* PC 우측 스크롤 영역 스크롤바 숨김 */
+#scroll-content {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  scroll-behavior: smooth;
+}
+#scroll-content::-webkit-scrollbar {
+  display: none;
+}
