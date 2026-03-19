@@ -5,6 +5,8 @@ import { useEffect, useState, useCallback, useRef } from "react";
 const SECTIONS = [
   { id: "greeting", label: "인사말" },
   { id: "wedding-info", label: "예식안내" },
+  { id: "about-us", label: "소개" },
+  { id: "timeline", label: "타임라인" },
   { id: "calendar", label: "캘린더" },
   { id: "gallery", label: "갤러리" },
   { id: "transport", label: "오시는길" },
@@ -89,9 +91,11 @@ export default function ScrollIndicator({
     const container = getScrollSource();
     container?.addEventListener("scroll", handleScroll, { passive: true });
 
-    handleScroll();
+    // Defer initial sync so setState runs in a separate tick (avoids cascading renders)
+    const id = setTimeout(handleScroll, 0);
 
     return () => {
+      clearTimeout(id);
       window.removeEventListener("scroll", handleScroll);
       container?.removeEventListener("scroll", handleScroll);
     };

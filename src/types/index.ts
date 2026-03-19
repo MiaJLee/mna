@@ -6,6 +6,9 @@ export interface Person {
 	fatherName: string
 	motherName: string
 	relation: string
+	childhoodPhoto?: string
+	birthInfo?: string
+	description?: string
 }
 
 export interface WeddingVenue {
@@ -30,7 +33,7 @@ export interface AccountGroup {
 }
 
 export interface TransportInfo {
-	type: 'subway' | 'bus' | 'car' | 'shuttle'
+	type: 'subway' | 'bus' | 'car' | 'parking'
 	title: string
 	details: string[]
 }
@@ -51,6 +54,13 @@ export interface NavigationLink {
 	url: string
 }
 
+export interface TimelineEvent {
+	date: string
+	title: string
+	description: string
+	image?: string
+}
+
 export interface WeddingConfig {
 	groom: Person
 	bride: Person
@@ -62,6 +72,7 @@ export interface WeddingConfig {
 	greeting: string
 	flowerDeclineMessage: string
 
+	timeline: TimelineEvent[]
 	gallery: GalleryImage[]
 	interview: InterviewQA[]
 	transport: TransportInfo[]

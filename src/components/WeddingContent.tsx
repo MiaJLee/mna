@@ -4,6 +4,8 @@ import { weddingConfig } from "@/config/wedding";
 import IntroSection from "@/components/sections/IntroSection";
 import GreetingSection from "@/components/sections/GreetingSection";
 import WeddingInfoSection from "@/components/sections/WeddingInfoSection";
+import AboutUsSection from "@/components/sections/AboutUsSection";
+import TimelineSection from "@/components/sections/TimelineSection";
 import CalendarSection from "@/components/sections/CalendarSection";
 import GallerySection from "@/components/sections/GallerySection";
 import TransportSection from "@/components/sections/TransportSection";
@@ -21,6 +23,10 @@ function ContentSections() {
       <GreetingSection config={weddingConfig} />
       <SectionDivider />
       <WeddingInfoSection config={weddingConfig} />
+      <SectionDivider />
+      <AboutUsSection config={weddingConfig} />
+      <SectionDivider />
+      <TimelineSection config={weddingConfig} />
       <SectionDivider />
       <CalendarSection config={weddingConfig} />
       <SectionDivider />

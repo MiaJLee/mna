@@ -10,6 +10,9 @@ export const weddingConfig: WeddingConfig = {
 		fatherName: '박상배',
 		motherName: '김미영',
 		relation: '의 장남',
+		childhoodPhoto: '/images/groom-baby.jpeg',
+		birthInfo: '1996년 2월 서울 출생',
+		description: '감성파 과학소년 🧪',
 	},
 	bride: {
 		role: '신부',
@@ -19,6 +22,9 @@ export const weddingConfig: WeddingConfig = {
 		fatherName: '이근재',
 		motherName: '이미승',
 		relation: '의 장녀',
+		childhoodPhoto: '/images/bride-baby.jpg',
+		birthInfo: '1995년 8월 부산 출생',
+		description: '호기심 많은 장난꾸러기 🎈',
 	},
 
 	// ── 예식 정보 ──────────────────────────────────
@@ -56,6 +62,34 @@ export const weddingConfig: WeddingConfig = {
 	// ── 화환 사양 ──────────────────────────────────
 	flowerDeclineMessage:
 		'축하의 마음만 감사히 받겠습니다.\n화환 대신 따뜻한 마음을 전해주시면\n더없이 행복하겠습니다.',
+
+	// ── 타임라인 ────────────────────────────────────
+	timeline: [
+		{
+			date: '22년 3월, 서울',
+			title: '☕ 운명 같은 첫 인연',
+			description: '서로 애정하던 카페에서\n첫눈에 반한 우리',
+			image: '/images/timeline/first-meet.jpg',
+		},
+		{
+			date: '연애 기간 1,280일',
+			title: '💕 행복했던 3년 반',
+			description: '항상 대화와 웃음이 머물던\n여러 계절들의 우리',
+			image: '/images/timeline/dating.jpg',
+		},
+		{
+			date: '첫 데이트 장소에서',
+			title: '💍 프로포즈',
+			description: '준비는 오래, 대답은 짧게.\n"YES!"',
+			image: '/images/timeline/propose.jpg',
+		},
+		{
+			date: '26년 10월 31일, 서울',
+			title: '👰🤵 웨딩데이',
+			description: '이제는 둘이 아닌\n하나로 걸어 시작하는 날',
+			image: '/images/timeline/wedding.jpg',
+		},
+	],
 
 	// ── 갤러리 ──────────────────────────────────────
 	gallery: [
