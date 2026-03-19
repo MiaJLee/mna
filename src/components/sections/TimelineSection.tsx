@@ -1,4 +1,5 @@
 import ImageWithFallback from "@/components/ui/ImageWithFallback";
+import RelationshipDaysLabel from "@/components/ui/RelationshipDaysLabel";
 import type { WeddingConfig } from "@/types";
 import { withBasePath } from "@/config/basePath";
 import AnimateOnScroll from "@/components/ui/AnimateOnScroll";
@@ -51,7 +52,14 @@ export default function TimelineSection({
                   {/* 텍스트 */}
                   <div className={`w-[45%] shrink-0 pt-4 ${isLeft ? "text-left" : "text-right"}`}>
                     <span className="inline-block px-3 py-1 bg-sage-100 text-sage-700 text-[10px] rounded-full mb-2">
-                      {event.date}
+                      {event.useRelationshipDays && config.relationshipStartDate ? (
+                        <RelationshipDaysLabel
+                          startDate={config.relationshipStartDate}
+                          className="inline-block"
+                        />
+                      ) : (
+                        event.date
+                      )}
                     </span>
                     <p className="text-sm font-medium text-brown-dark mb-1">
                       {event.title}

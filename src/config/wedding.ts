@@ -29,6 +29,7 @@ export const weddingConfig: WeddingConfig = {
 
 	// ── 예식 정보 ──────────────────────────────────
 	datetime: '2026-10-31T11:00:00',
+	relationshipStartDate: '2023-02-22T00:00:00',
 	venue: {
 		name: '성균관컨벤션웨딩홀',
 		hall: '3층 스토리홀',
@@ -66,16 +67,17 @@ export const weddingConfig: WeddingConfig = {
 	// ── 타임라인 ────────────────────────────────────
 	timeline: [
 		{
-			date: '22년 3월, 서울',
+			date: '23년 2월, 보정동',
 			title: '☕ 운명 같은 첫 인연',
 			description: '서로 애정하던 카페에서\n첫눈에 반한 우리',
 			image: '/images/timeline/first-meet.jpg',
 		},
 		{
-			date: '연애 기간 1,280일',
+			date: '',
 			title: '💕 행복했던 3년 반',
 			description: '항상 대화와 웃음이 머물던\n여러 계절들의 우리',
 			image: '/images/timeline/dating.jpg',
+			useRelationshipDays: true,
 		},
 		{
 			date: '첫 데이트 장소에서',
@@ -105,37 +107,6 @@ export const weddingConfig: WeddingConfig = {
 		{ src: '/images/gallery/gallery-10.jpg', alt: '웨딩 사진 10' },
 		{ src: '/images/gallery/gallery-11.jpg', alt: '웨딩 사진 11' },
 		{ src: '/images/gallery/gallery-12.jpg', alt: '웨딩 사진 12' },
-	],
-
-	// ── 인터뷰 ──────────────────────────────────────
-	interview: [
-		{
-			question: '서로의 첫인상은 어땠나요?',
-			answer:
-				'처음 봤을 때 참 편안한 사람이라고 느꼈어요. 대화를 나누면 나눌수록 마음이 따뜻해지는 사람이었습니다.',
-			answeredBy: 'both',
-		},
-		{
-			question: '프로포즈는 어떻게 했나요?',
-			answer: "특별한 날을 기다리기보다 평범한 일상 속에서 '함께 걷고 싶다'는 말을 전했습니다.",
-			answeredBy: 'groom',
-		},
-		{
-			question: '결혼을 결심한 순간은?',
-			answer:
-				'힘든 일이 있을 때 곁에 있어주는 모습을 보면서, 이 사람과 평생 함께하고 싶다고 느꼈습니다.',
-			answeredBy: 'bride',
-		},
-		{
-			question: '서로에게 하고 싶은 말은?',
-			answer: '항상 고맙고, 앞으로도 지금처럼 서로를 아끼며 함께 걸어가요. 사랑해요.',
-			answeredBy: 'both',
-		},
-		{
-			question: '어떤 가정을 꾸리고 싶나요?',
-			answer: '웃음이 끊이지 않는, 서로를 존중하고 응원하는 따뜻한 가정을 만들어가고 싶습니다.',
-			answeredBy: 'both',
-		},
 	],
 
 	// ── 교통 안내 ──────────────────────────────────

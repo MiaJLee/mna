@@ -2,8 +2,6 @@ export interface RsvpFormData {
   name: string;
   phone: string;
   attendance: "yes" | "no";
-  guestCount: number;
-  message: string;
 }
 
 export async function submitRsvp(
@@ -11,18 +9,19 @@ export async function submitRsvp(
   scriptUrl: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    const formData = new FormData();
-    formData.append("name", data.name);
-    formData.append("phone", data.phone);
-    formData.append("attendance", data.attendance === "yes" ? "참석" : "불참");
-    formData.append("guestCount", String(data.guestCount));
-    formData.append("message", data.message);
-    formData.append("timestamp", new Date().toLocaleString("ko-KR"));
+    // application/x-www-form-urlencoded → Google Apps Script doPost(e) e.parameter에서 수신
+    const body = new URLSearchParams({
+      name: data.name,
+      phone: data.phone,
+      attendance: data.attendance === "yes" ? "참석" : "불참",
+      timestamp: new Date().toLocaleString("ko-KR"),
+    });
 
     await fetch(scriptUrl, {
       method: "POST",
       mode: "no-cors",
-      body: formData,
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: body.toString(),
     });
 
     return { success: true };

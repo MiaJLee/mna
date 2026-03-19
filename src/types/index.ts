@@ -38,12 +38,6 @@ export interface TransportInfo {
 	details: string[]
 }
 
-export interface InterviewQA {
-	question: string
-	answer: string
-	answeredBy: 'groom' | 'bride' | 'both'
-}
-
 export interface GalleryImage {
 	src: string
 	alt: string
@@ -59,6 +53,8 @@ export interface TimelineEvent {
 	title: string
 	description: string
 	image?: string
+	/** true면 date 대신 연애기간 N일(시작일 기준) 표시 */
+	useRelationshipDays?: boolean
 }
 
 export interface WeddingConfig {
@@ -67,6 +63,8 @@ export interface WeddingConfig {
 
 	datetime: string
 	venue: WeddingVenue
+	/** 연애 시작일 (datetime과 동일 ISO 형식), 해당일 = 1일로 계산 */
+	relationshipStartDate?: string
 	navigationLinks: NavigationLink[]
 
 	greeting: string
@@ -74,7 +72,6 @@ export interface WeddingConfig {
 
 	timeline: TimelineEvent[]
 	gallery: GalleryImage[]
-	interview: InterviewQA[]
 	transport: TransportInfo[]
 	accountGroups: AccountGroup[]
 

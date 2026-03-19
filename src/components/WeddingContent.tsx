@@ -9,7 +9,6 @@ import TimelineSection from "@/components/sections/TimelineSection";
 import CalendarSection from "@/components/sections/CalendarSection";
 import GallerySection from "@/components/sections/GallerySection";
 import TransportSection from "@/components/sections/TransportSection";
-import InterviewSection from "@/components/sections/InterviewSection";
 import AccountSection from "@/components/sections/AccountSection";
 import FlowerDeclineSection from "@/components/sections/FlowerDeclineSection";
 import RsvpSection from "@/components/sections/RsvpSection";
@@ -33,8 +32,6 @@ function ContentSections() {
       <GallerySection config={weddingConfig} />
       <SectionDivider />
       <TransportSection config={weddingConfig} />
-      <SectionDivider />
-      <InterviewSection config={weddingConfig} />
       <SectionDivider />
       <AccountSection config={weddingConfig} />
       <FlowerDeclineSection config={weddingConfig} />

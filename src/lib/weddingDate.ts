@@ -33,3 +33,11 @@ export function calcDDay(dt: DateTime): number {
   const wedding = dt.startOf("day");
   return Math.ceil(wedding.diff(today, "days").days);
 }
+
+/** 연애 시작일(해당일 = 1일) 기준 오늘까지 경과 일수 */
+export function calcRelationshipDays(startDate: string): number {
+  const start = DateTime.fromISO(startDate, { zone: ZONE }).startOf("day");
+  const today = DateTime.now().setZone(ZONE).startOf("day");
+  const diff = today.diff(start, "days").days;
+  return Math.max(1, Math.floor(diff) + 1);
+}

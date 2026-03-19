@@ -10,7 +10,6 @@ const SECTIONS = [
   { id: "calendar", label: "캘린더" },
   { id: "gallery", label: "갤러리" },
   { id: "transport", label: "오시는길" },
-  { id: "interview", label: "인터뷰" },
   { id: "account", label: "축의금" },
   { id: "rsvp", label: "참석여부" },
   { id: "share", label: "공유" },
