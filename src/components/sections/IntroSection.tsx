@@ -1,12 +1,10 @@
 import Image from "next/image";
 import type { WeddingConfig } from "@/types";
 import { withBasePath } from "@/config/basePath";
+import { parseWeddingDate, formatDotDate, formatKoreanTime } from "@/lib/weddingDate";
 
 export default function IntroSection({ config }: { config: WeddingConfig }) {
-  const dateObj = new Date(config.date);
-  const year = dateObj.getFullYear();
-  const month = dateObj.getMonth() + 1;
-  const day = dateObj.getDate();
+  const dt = parseWeddingDate(config.datetime);
 
   return (
     <section
@@ -14,10 +12,10 @@ export default function IntroSection({ config }: { config: WeddingConfig }) {
       className="relative h-dvh w-full overflow-hidden lg:h-full lg:min-h-screen"
     >
       <Image
-        src={withBasePath("/images/hero.jpg")}
+        src={withBasePath("/images/main.jpg")}
         alt="웨딩 사진"
         fill
-        className="object-cover"
+        className="object-cover scale-125"
         sizes="(min-width: 1024px) 33vw, 100vw"
         priority
       />
@@ -33,8 +31,7 @@ export default function IntroSection({ config }: { config: WeddingConfig }) {
           {config.bride.name}
         </h1>
         <p className="text-sm opacity-80 tracking-wider">
-          {year}.{String(month).padStart(2, "0")}.
-          {String(day).padStart(2, "0")} {config.time}
+          {formatDotDate(dt)} {formatKoreanTime(dt)}
         </p>
         <p className="text-xs opacity-60 mt-2">
           {config.venue.name} {config.venue.hall}

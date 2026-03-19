@@ -1,23 +1,15 @@
+import { parseWeddingDate } from "@/lib/weddingDate";
+
 export function generateIcs(
-  date: string,
-  time: string,
+  datetime: string,
   venueName: string,
   address: string
 ): void {
-  const weddingDate = new Date(date);
-  const hourMatch = time.match(/(\d+)/);
-  let hour = hourMatch ? parseInt(hourMatch[1]) : 14;
-  if (time.includes("오후") && hour < 12) hour += 12;
+  const dt = parseWeddingDate(datetime);
+  const endDt = dt.plus({ hours: 2 });
 
-  weddingDate.setHours(hour, 0, 0, 0);
-
-  const endDate = new Date(weddingDate);
-  endDate.setHours(hour + 2);
-
-  const formatDate = (d: Date) => {
-    const pad = (n: number) => String(n).padStart(2, "0");
-    return `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}T${pad(d.getHours())}${pad(d.getMinutes())}00`;
-  };
+  const formatDate = (d: typeof dt) =>
+    d.toFormat("yyyyMMdd'T'HHmmss");
 
   const icsContent = `BEGIN:VCALENDAR
 VERSION:2.0
@@ -26,9 +18,9 @@ CALSCALE:GREGORIAN
 METHOD:PUBLISH
 BEGIN:VEVENT
 UID:${Date.now()}@wedding-invitation
-DTSTAMP:${formatDate(new Date())}
-DTSTART;TZID=Asia/Seoul:${formatDate(weddingDate)}
-DTEND;TZID=Asia/Seoul:${formatDate(endDate)}
+DTSTAMP:${formatDate(dt)}
+DTSTART;TZID=Asia/Seoul:${formatDate(dt)}
+DTEND;TZID=Asia/Seoul:${formatDate(endDt)}
 SUMMARY:${venueName} 결혼식
 DESCRIPTION:결혼식에 초대합니다
 LOCATION:${address}

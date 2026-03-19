@@ -1,79 +1,75 @@
 export interface Person {
-  role: string;
-  name: string;
-  fatherName: string;
-  motherName: string;
-  relation: string;
+	role: string
+	name: string
+	fatherName: string
+	motherName: string
+	relation: string
 }
 
 export interface WeddingVenue {
-  name: string;
-  hall: string;
-  address: string;
-  tel: string;
-  lat: number;
-  lng: number;
+	name: string
+	hall: string
+	address: string
+	tel: string
 }
 
 export interface BankAccount {
-  role: string;
-  bank: string;
-  accountNumber: string;
-  holder: string;
-  kakaoPayUrl?: string;
+	role: string
+	bank: string
+	accountNumber: string
+	holder: string
+	kakaoPayUrl?: string
 }
 
 export interface AccountGroup {
-  side: "groom" | "bride";
-  label: string;
-  accounts: BankAccount[];
+	side: 'groom' | 'bride'
+	label: string
+	accounts: BankAccount[]
 }
 
 export interface TransportInfo {
-  type: "subway" | "bus" | "car" | "shuttle";
-  title: string;
-  details: string[];
+	type: 'subway' | 'bus' | 'car' | 'shuttle'
+	title: string
+	details: string[]
 }
 
 export interface InterviewQA {
-  question: string;
-  answer: string;
-  answeredBy: "groom" | "bride" | "both";
+	question: string
+	answer: string
+	answeredBy: 'groom' | 'bride' | 'both'
 }
 
 export interface GalleryImage {
-  src: string;
-  alt: string;
+	src: string
+	alt: string
 }
 
 export interface NavigationLink {
-  name: string;
-  url: string;
+	name: string
+	url: string
 }
 
 export interface WeddingConfig {
-  groom: Person;
-  bride: Person;
+	groom: Person
+	bride: Person
 
-  date: string;
-  time: string;
-  timeDetail: string;
-  venue: WeddingVenue;
-  navigationLinks: NavigationLink[];
+	datetime: string
+	venue: WeddingVenue
+	navigationLinks: NavigationLink[]
 
-  greeting: string;
-  flowerDeclineMessage: string;
+	greeting: string
+	flowerDeclineMessage: string
 
-  gallery: GalleryImage[];
-  interview: InterviewQA[];
-  transport: TransportInfo[];
-  accountGroups: AccountGroup[];
+	gallery: GalleryImage[]
+	interview: InterviewQA[]
+	transport: TransportInfo[]
+	accountGroups: AccountGroup[]
 
-  kakaoJsKey: string;
+	kakaoJsKey: string
 
-  googleScriptUrl: string;
+	googleScriptUrl: string
 
-  ogImage: string;
-  siteUrl: string;
-  coupleNameShort: string;
+	ogImage: string
+	siteUrl: string
+	coupleNameShort: string
 }

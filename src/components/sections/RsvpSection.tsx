@@ -11,7 +11,6 @@ export default function RsvpSection({ config }: { config: WeddingConfig }) {
     phone: "",
     attendance: "yes",
     guestCount: 1,
-    mealPreference: "예정",
     message: "",
   });
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
@@ -125,27 +124,6 @@ export default function RsvpSection({ config }: { config: WeddingConfig }) {
                 />
               </div>
 
-              <div>
-                <label className="text-xs text-brown-dark font-medium mb-2 block">
-                  식사 여부
-                </label>
-                <div className="flex gap-3">
-                  {["예정", "미정"].map((val) => (
-                    <button
-                      key={val}
-                      type="button"
-                      onClick={() => setForm({ ...form, mealPreference: val })}
-                      className={`flex-1 py-3 rounded-xl text-sm transition-colors ${
-                        form.mealPreference === val
-                          ? "bg-sage-400 text-white"
-                          : "bg-cream border border-beige text-brown"
-                      }`}
-                    >
-                      {val}
-                    </button>
-                  ))}
-                </div>
-              </div>
             </>
           )}
 

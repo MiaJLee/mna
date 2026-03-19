@@ -1,67 +1,43 @@
-"use client";
+'use client'
 
-import { useEffect, useRef } from "react";
+export default function KakaoMapClient() {
+	const html = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width,initial-scale=1" />
+      <style>
+        body { margin: 0; padding: 0; }
+        .root_daum_roughmap { width: 100% !important; }
+        .wrap_map { width: 100% !important; }
+        .wrap_map img { max-width: none; }
+      </style>
+    </head>
+    <body>
+      <div id="daumRoughmapContainer1773924971332"
+           class="root_daum_roughmap root_daum_roughmap_landing"></div>
+      <script charset="UTF-8"
+              src="https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js"></script>
+      <script charset="UTF-8">
+        new daum.roughmap.Lander({
+          "timestamp" : "1773924971332",
+          "key" : "j8wdyh7rse3",
+          "mapWidth" : "365",
+          "mapHeight" : "260"
+        }).render();
+      </script>
+    </body>
+    </html>
+  `
 
-declare global {
-  interface Window {
-    kakao: {
-      maps: {
-        load: (callback: () => void) => void;
-        LatLng: new (lat: number, lng: number) => unknown;
-        Map: new (
-          container: HTMLElement,
-          options: { center: unknown; level: number }
-        ) => unknown;
-        Marker: new (options: { position: unknown }) => {
-          setMap: (map: unknown) => void;
-        };
-        InfoWindow: new (options: {
-          content: string;
-        }) => { open: (map: unknown, marker: unknown) => void };
-      };
-    };
-  }
-}
-
-interface KakaoMapClientProps {
-  lat: number;
-  lng: number;
-  venueName: string;
-}
-
-export default function KakaoMapClient({
-  lat,
-  lng,
-  venueName,
-}: KakaoMapClientProps) {
-  const mapRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (typeof window === "undefined" || !window.kakao?.maps) return;
-
-    window.kakao.maps.load(() => {
-      if (!mapRef.current) return;
-      const position = new window.kakao.maps.LatLng(lat, lng);
-      const map = new window.kakao.maps.Map(mapRef.current, {
-        center: position,
-        level: 3,
-      });
-
-      const marker = new window.kakao.maps.Marker({ position });
-      marker.setMap(map);
-
-      const infoWindow = new window.kakao.maps.InfoWindow({
-        content: `<div style="padding:5px 10px;font-size:12px;white-space:nowrap;">${venueName}</div>`,
-      });
-      infoWindow.open(map, marker);
-    });
-  }, [lat, lng, venueName]);
-
-  return (
-    <div ref={mapRef} className="w-full h-64 bg-sage-50">
-      <div className="w-full h-full flex items-center justify-center text-warm-gray text-sm">
-        지도를 불러오는 중...
-      </div>
-    </div>
-  );
+	return (
+		<iframe
+			srcDoc={html}
+			title="카카오맵 약도"
+			className="w-full border-0"
+			style={{ height: '260px' }}
+			sandbox="allow-scripts allow-same-origin"
+		/>
+	)
 }

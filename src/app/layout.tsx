@@ -1,15 +1,18 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { weddingConfig } from "@/config/wedding";
+import { parseWeddingDate, formatKoreanFull } from "@/lib/weddingDate";
 import "./globals.css";
+
+const weddingDateStr = formatKoreanFull(parseWeddingDate(weddingConfig.datetime));
 
 export const metadata: Metadata = {
   metadataBase: new URL(weddingConfig.siteUrl || "https://example.github.io/mna"),
   title: `${weddingConfig.groom.name} ♥ ${weddingConfig.bride.name} 결혼합니다`,
-  description: `${weddingConfig.timeDetail} | ${weddingConfig.venue.name} ${weddingConfig.venue.hall}`,
+  description: `${weddingDateStr} | ${weddingConfig.venue.name} ${weddingConfig.venue.hall}`,
   openGraph: {
     title: `${weddingConfig.groom.name} ♥ ${weddingConfig.bride.name} 결혼합니다`,
-    description: `${weddingConfig.timeDetail} | ${weddingConfig.venue.name}`,
+    description: `${weddingDateStr} | ${weddingConfig.venue.name}`,
     images: [weddingConfig.ogImage],
     type: "website",
   },

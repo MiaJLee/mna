@@ -3,7 +3,6 @@ export interface RsvpFormData {
   phone: string;
   attendance: "yes" | "no";
   guestCount: number;
-  mealPreference: string;
   message: string;
 }
 
@@ -17,7 +16,6 @@ export async function submitRsvp(
     formData.append("phone", data.phone);
     formData.append("attendance", data.attendance === "yes" ? "참석" : "불참");
     formData.append("guestCount", String(data.guestCount));
-    formData.append("mealPreference", data.mealPreference);
     formData.append("message", data.message);
     formData.append("timestamp", new Date().toLocaleString("ko-KR"));
 

@@ -5,6 +5,7 @@ import type { WeddingConfig } from "@/types";
 import AnimateOnScroll from "@/components/ui/AnimateOnScroll";
 import Toast from "@/components/ui/Toast";
 import { initKakao, shareKakao } from "@/lib/kakao";
+import { parseWeddingDate, formatKoreanFull } from "@/lib/weddingDate";
 
 export default function ShareSection({ config }: { config: WeddingConfig }) {
   const [showToast, setShowToast] = useState(false);
@@ -18,7 +19,7 @@ export default function ShareSection({ config }: { config: WeddingConfig }) {
   const handleKakaoShare = () => {
     shareKakao({
       title: `${config.groom.name} ♥ ${config.bride.name} 결혼합니다`,
-      description: config.timeDetail + " | " + config.venue.name,
+      description: formatKoreanFull(parseWeddingDate(config.datetime)) + " | " + config.venue.name,
       imageUrl: config.siteUrl + config.ogImage,
       webUrl: config.siteUrl,
     });
@@ -45,7 +46,7 @@ export default function ShareSection({ config }: { config: WeddingConfig }) {
       try {
         await navigator.share({
           title: `${config.groom.name} ♥ ${config.bride.name} 결혼식에 초대합니다`,
-          text: config.timeDetail + " | " + config.venue.name,
+          text: formatKoreanFull(parseWeddingDate(config.datetime)) + " | " + config.venue.name,
           url: config.siteUrl,
         });
       } catch {

@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import type { WeddingConfig } from "@/types";
 import AnimateOnScroll from "@/components/ui/AnimateOnScroll";
 import { generateIcs } from "@/lib/generateIcs";
+import { parseWeddingDate, formatKoreanFull, calcDDay } from "@/lib/weddingDate";
 
 const DAY_NAMES = ["일", "월", "화", "수", "목", "금", "토"];
 
@@ -12,24 +13,15 @@ export default function CalendarSection({
 }: {
   config: WeddingConfig;
 }) {
-  const weddingDate = useMemo(() => new Date(config.date), [config.date]);
-  const year = weddingDate.getFullYear();
-  const month = weddingDate.getMonth();
-  const weddingDay = weddingDate.getDate();
+  const dt = useMemo(() => parseWeddingDate(config.datetime), [config.datetime]);
+  const year = dt.year;
+  const month = dt.month - 1; // 0-based for calendar grid calculation
+  const weddingDay = dt.day;
 
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const firstDayOfWeek = new Date(year, month, 1).getDay();
 
-  const dDay = useMemo(() => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const wedding = new Date(config.date);
-    wedding.setHours(0, 0, 0, 0);
-    const diff = Math.ceil(
-      (wedding.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
-    );
-    return diff;
-  }, [config.date]);
+  const dDay = useMemo(() => calcDDay(dt), [dt]);
 
   const calendarDays = useMemo(() => {
     const days: (number | null)[] = [];
@@ -39,14 +31,14 @@ export default function CalendarSection({
   }, [firstDayOfWeek, daysInMonth]);
 
   const handleAddToCalendar = () => {
-    generateIcs(config.date, config.time, config.venue.name, config.venue.address);
+    generateIcs(config.datetime, config.venue.name, config.venue.address);
   };
 
   return (
     <section id="calendar" className="w-full max-w-[430px] mx-auto px-6 py-12">
       <AnimateOnScroll>
         <h2 className="font-serif text-xl text-brown-dark text-center mb-8">
-          {year}년 {month + 1}월
+          {year}년 {dt.month}월
         </h2>
       </AnimateOnScroll>
 
@@ -91,7 +83,7 @@ export default function CalendarSection({
           </div>
 
           <div className="mt-6 text-center">
-            <p className="text-sm text-brown mb-1">{config.timeDetail}</p>
+            <p className="text-sm text-brown mb-1">{formatKoreanFull(dt)}</p>
             <p className="text-lg font-serif text-sage-600 mt-2">
               {dDay > 0
                 ? `D-${dDay}`

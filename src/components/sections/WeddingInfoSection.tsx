@@ -4,6 +4,7 @@ import type { WeddingConfig } from "@/types";
 import AnimateOnScroll from "@/components/ui/AnimateOnScroll";
 import CopyButton from "@/components/ui/CopyButton";
 import KakaoMapClient from "@/components/KakaoMapClient";
+import { parseWeddingDate, formatKoreanFull } from "@/lib/weddingDate";
 
 export default function WeddingInfoSection({
   config,
@@ -24,17 +25,13 @@ export default function WeddingInfoSection({
             {config.venue.name}
           </p>
           <p className="text-sm text-warm-gray">{config.venue.hall}</p>
-          <p className="text-sm text-brown mt-3">{config.timeDetail}</p>
+          <p className="text-sm text-brown mt-3">{formatKoreanFull(parseWeddingDate(config.datetime))}</p>
         </div>
       </AnimateOnScroll>
 
       <AnimateOnScroll delay={200}>
         <div className="rounded-xl overflow-hidden border border-beige mb-4">
-          <KakaoMapClient
-            lat={config.venue.lat}
-            lng={config.venue.lng}
-            venueName={config.venue.name}
-          />
+          <KakaoMapClient />
         </div>
       </AnimateOnScroll>
 
