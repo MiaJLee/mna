@@ -7,6 +7,7 @@ export default function KakaoMapClient() {
     <head>
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width,initial-scale=1" />
+      <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
       <style>
         body { margin: 0; padding: 0; }
         .root_daum_roughmap { width: 100% !important; }
