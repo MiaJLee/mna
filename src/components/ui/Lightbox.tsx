@@ -5,6 +5,9 @@ import ImageWithFallback from "@/components/ui/ImageWithFallback";
 import type { GalleryImage } from "@/types";
 import { withBasePath } from "@/config/basePath";
 
+const SWIPE_THRESHOLD = 60;
+const DRAG_DAMP = 0.4;
+
 interface LightboxProps {
   images: GalleryImage[];
   currentIndex: number;
@@ -17,16 +20,38 @@ export default function Lightbox({
   onClose,
 }: LightboxProps) {
   const [index, setIndex] = useState(currentIndex);
-  const touchStartX = useRef(0);
-  const touchEndX = useRef(0);
+  const [dragOffset, setDragOffset] = useState(0);
+  const [containerWidth, setContainerWidth] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const pointerStartX = useRef(0);
+  const dragStartOffset = useRef(0);
+  const isPointerDown = useRef(false);
 
   const goNext = useCallback(() => {
     setIndex((prev) => (prev + 1) % images.length);
+    setDragOffset(0);
   }, [images.length]);
 
   const goPrev = useCallback(() => {
     setIndex((prev) => (prev - 1 + images.length) % images.length);
+    setDragOffset(0);
   }, [images.length]);
+
+  useEffect(() => {
+    setIndex(currentIndex);
+  }, [currentIndex]);
+
+  useEffect(() => {
+    const el = trackRef.current?.parentElement;
+    if (!el) return;
+    const ro = new ResizeObserver(() => {
+      setContainerWidth(el.getBoundingClientRect().width);
+    });
+    ro.observe(el);
+    setContainerWidth(el.getBoundingClientRect().width);
+    return () => ro.disconnect();
+  }, []);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -44,30 +69,55 @@ export default function Lightbox({
     };
   }, [goNext, goPrev, onClose]);
 
-  const handleTouchStart = (e: React.TouchEvent) => {
-    touchStartX.current = e.touches[0].clientX;
-  };
+  const handlePointerDown = useCallback(
+    (e: React.PointerEvent) => {
+      (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
+      pointerStartX.current = e.clientX;
+      dragStartOffset.current = dragOffset;
+      isPointerDown.current = true;
+      setIsDragging(true);
+    },
+    [dragOffset]
+  );
 
-  const handleTouchMove = (e: React.TouchEvent) => {
-    touchEndX.current = e.touches[0].clientX;
-  };
+  const handlePointerMove = useCallback(
+    (e: React.PointerEvent) => {
+      if (!isPointerDown.current || containerWidth <= 0) return;
+      const delta = e.clientX - pointerStartX.current;
+      let next = dragStartOffset.current + delta;
+      const atStart = index === 0;
+      const atEnd = index === images.length - 1;
+      if (atStart && next > 0) next = next * DRAG_DAMP;
+      if (atEnd && next < 0) next = next * DRAG_DAMP;
+      setDragOffset(next);
+    },
+    [index, images.length, containerWidth]
+  );
 
-  const handleTouchEnd = () => {
-    const diff = touchStartX.current - touchEndX.current;
-    if (Math.abs(diff) > 50) {
-      if (diff > 0) goNext();
-      else goPrev();
+  const handlePointerUp = useCallback(() => {
+    if (!isPointerDown.current) return;
+    isPointerDown.current = false;
+    setIsDragging(false);
+    if (containerWidth <= 0) return;
+    const threshold = Math.min(SWIPE_THRESHOLD, containerWidth * 0.2);
+    if (dragOffset < -threshold) {
+      setIndex((prev) => (prev + 1) % images.length);
+      setDragOffset(0);
+    } else if (dragOffset > threshold) {
+      setIndex((prev) => (prev - 1 + images.length) % images.length);
+      setDragOffset(0);
+    } else {
+      setDragOffset(0);
     }
-  };
+  }, [dragOffset, containerWidth, images.length]);
+
+  const baseTranslate = containerWidth > 0 ? -index * containerWidth : 0;
+  const translateX = baseTranslate + dragOffset;
 
   return (
-    <div
-      className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center"
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
-    >
+    <div className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center">
       <button
+        type="button"
         onClick={onClose}
         className="absolute top-4 right-4 z-10 w-10 h-10 flex items-center justify-center text-white/80 hover:text-white"
         aria-label="닫기"
@@ -88,6 +138,7 @@ export default function Lightbox({
       </button>
 
       <button
+        type="button"
         onClick={goPrev}
         className="absolute left-2 z-10 w-10 h-10 flex items-center justify-center text-white/60 hover:text-white"
         aria-label="이전"
@@ -107,18 +158,47 @@ export default function Lightbox({
         </svg>
       </button>
 
-      <div className="relative w-full h-full flex items-center justify-center px-12">
-        <ImageWithFallback
-          src={withBasePath(images[index].src)}
-          alt={images[index].alt}
-          fill
-          className="object-contain"
-          sizes="100vw"
-          priority
-        />
+      <div
+        className="relative w-full h-full overflow-hidden px-12 touch-none"
+        style={{ maxWidth: "100vw" }}
+      >
+        <div
+          ref={trackRef}
+          className="absolute inset-0 flex items-center"
+          style={{
+            width: containerWidth * images.length || "100%",
+            transform: `translateX(${translateX}px)`,
+            transition: isDragging ? "none" : "transform 0.25s ease-out",
+          }}
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerUp}
+          onPointerLeave={handlePointerUp}
+          onPointerCancel={handlePointerUp}
+        >
+          {images.map((img, i) => (
+            <div
+              key={i}
+              className="flex-shrink-0 flex items-center justify-center"
+              style={{ width: containerWidth, height: "100%" }}
+            >
+              <div className="relative w-full h-full">
+                <ImageWithFallback
+                  src={withBasePath(img.src)}
+                  alt={img.alt}
+                  fill
+                  className="object-contain select-none pointer-events-none"
+                  sizes="100vw"
+                  priority={i === index}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
 
       <button
+        type="button"
         onClick={goNext}
         className="absolute right-2 z-10 w-10 h-10 flex items-center justify-center text-white/60 hover:text-white"
         aria-label="다음"
