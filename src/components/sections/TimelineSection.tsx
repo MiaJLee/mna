@@ -1,4 +1,4 @@
-import Image from "next/image";
+import ImageWithFallback from "@/components/ui/ImageWithFallback";
 import type { WeddingConfig } from "@/types";
 import { withBasePath } from "@/config/basePath";
 import AnimateOnScroll from "@/components/ui/AnimateOnScroll";
@@ -37,7 +37,7 @@ export default function TimelineSection({
                   <div className="w-[45%] shrink-0">
                     {event.image && (
                       <div className="relative aspect-square rounded-xl overflow-hidden shadow-sm">
-                        <Image
+                        <ImageWithFallback
                           src={withBasePath(event.image)}
                           alt={event.title}
                           fill

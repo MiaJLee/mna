@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useCallback, useState, useRef } from "react";
-import Image from "next/image";
+import ImageWithFallback from "@/components/ui/ImageWithFallback";
 import type { GalleryImage } from "@/types";
 import { withBasePath } from "@/config/basePath";
 
@@ -108,7 +108,7 @@ export default function Lightbox({
       </button>
 
       <div className="relative w-full h-full flex items-center justify-center px-12">
-        <Image
+        <ImageWithFallback
           src={withBasePath(images[index].src)}
           alt={images[index].alt}
           fill

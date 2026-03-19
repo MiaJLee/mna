@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
+import ImageWithFallback from "@/components/ui/ImageWithFallback";
 import type { WeddingConfig } from "@/types";
 import AnimateOnScroll from "@/components/ui/AnimateOnScroll";
 import Lightbox from "@/components/ui/Lightbox";
@@ -22,19 +22,19 @@ export default function GallerySection({
         </h2>
       </AnimateOnScroll>
 
-      <div className="grid grid-cols-2 gap-2">
-        {config.gallery.map((img, idx) => (
+      <div className="grid grid-cols-3 gap-2">
+        {config.gallery.slice(0, 12).map((img, idx) => (
           <AnimateOnScroll key={idx} delay={idx * 50}>
             <button
               onClick={() => setSelectedIndex(idx)}
               className="relative aspect-square w-full overflow-hidden rounded-lg"
             >
-              <Image
+              <ImageWithFallback
                 src={withBasePath(img.src)}
                 alt={img.alt}
                 fill
                 className="object-cover hover:scale-105 transition-transform duration-300"
-                sizes="50vw"
+                sizes="33vw"
               />
             </button>
           </AnimateOnScroll>
@@ -43,7 +43,7 @@ export default function GallerySection({
 
       {selectedIndex !== null && (
         <Lightbox
-          images={config.gallery}
+          images={config.gallery.slice(0, 12)}
           currentIndex={selectedIndex}
           onClose={() => setSelectedIndex(null)}
         />

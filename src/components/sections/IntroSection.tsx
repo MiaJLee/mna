@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import ImageWithFallback from '@/components/ui/ImageWithFallback'
 import type { WeddingConfig } from '@/types'
 import { withBasePath } from '@/config/basePath'
 import { parseWeddingDate, formatDotDate, formatKoreanTime } from '@/lib/weddingDate'
@@ -8,7 +8,7 @@ export default function IntroSection({ config }: { config: WeddingConfig }) {
 
 	return (
 		<section id="intro" className="relative h-dvh w-full overflow-hidden lg:h-full lg:min-h-screen">
-			<Image
+			<ImageWithFallback
 				src={withBasePath('/images/main.jpg')}
 				alt="웨딩 사진"
 				fill

@@ -101,6 +101,10 @@ export const weddingConfig: WeddingConfig = {
 		{ src: '/images/gallery/gallery-06.jpg', alt: '웨딩 사진 6' },
 		{ src: '/images/gallery/gallery-07.jpg', alt: '웨딩 사진 7' },
 		{ src: '/images/gallery/gallery-08.jpg', alt: '웨딩 사진 8' },
+		{ src: '/images/gallery/gallery-09.jpg', alt: '웨딩 사진 9' },
+		{ src: '/images/gallery/gallery-10.jpg', alt: '웨딩 사진 10' },
+		{ src: '/images/gallery/gallery-11.jpg', alt: '웨딩 사진 11' },
+		{ src: '/images/gallery/gallery-12.jpg', alt: '웨딩 사진 12' },
 	],
 
 	// ── 인터뷰 ──────────────────────────────────────
@@ -232,7 +236,7 @@ export const weddingConfig: WeddingConfig = {
 	googleScriptUrl: 'PLACEHOLDER_GOOGLE_SCRIPT_URL',
 
 	// ── 공유 설정 ──────────────────────────────────
-	ogImage: '/images/og-image.jpg',
-	siteUrl: 'https://PLACEHOLDER.github.io/mna',
-	coupleNameShort: '길동 ♥ 영희',
+	ogImage: '/images/main-og.jpg',
+	siteUrl: 'https://miajlee.github.io/mna',
+	coupleNameShort: '지형 ♥ 종혁',
 }

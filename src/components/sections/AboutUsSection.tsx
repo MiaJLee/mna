@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import ImageWithFallback from '@/components/ui/ImageWithFallback'
 import type { WeddingConfig, Person } from '@/types'
 import { withBasePath } from '@/config/basePath'
 import AnimateOnScroll from '@/components/ui/AnimateOnScroll'
@@ -11,7 +11,7 @@ function ProfileCard({ person, delay }: { person: Person; delay: number }) {
 			<div className="bg-warm-white rounded-2xl p-6 border border-beige/50">
 				<div className="flex justify-center mb-4">
 					<div className="relative w-72 h-72 rounded-xl overflow-hidden">
-						<Image
+						<ImageWithFallback
 							src={withBasePath(person.childhoodPhoto)}
 							alt={`${person.name} 어린 시절`}
 							fill
