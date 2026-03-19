@@ -1,7 +1,7 @@
 import ImageWithFallback from '@/components/ui/ImageWithFallback'
 import type { WeddingConfig } from '@/types'
 import { withBasePath } from '@/config/basePath'
-import { parseWeddingDate, formatDotDate, formatKoreanTime } from '@/lib/weddingDate'
+import { parseWeddingDate, formatDotDate, formatTime } from '@/lib/weddingDate'
 
 export default function IntroSection({ config }: { config: WeddingConfig }) {
 	const dt = parseWeddingDate(config.datetime)
@@ -20,7 +20,7 @@ export default function IntroSection({ config }: { config: WeddingConfig }) {
 
 			<div className="absolute inset-0 flex flex-col items-center justify-start pt-20 px-6 text-white lg:justify-center lg:pt-0">
 				<p className="text-[4rem] mb-3 text-rose-300" style={{ fontFamily: "'Meow Script', cursive" }}>
-					Save the Date
+					{config.labels.saveTheDate}
 				</p>
 				<h1 className="font-serif text-xl mb-3 tracking-wide">
 					<span className="opacity-70">{config.groom.name}</span>
@@ -28,7 +28,7 @@ export default function IntroSection({ config }: { config: WeddingConfig }) {
 					<span className="opacity-70">{config.bride.name}</span>
 				</h1>
 				<p className="text-m opacity-80 tracking-wider">
-					{formatDotDate(dt)} {formatKoreanTime(dt)}
+					{formatDotDate(dt)} {formatTime(dt, config.labels.locale)}
 				</p>
 				<p className="text-s opacity-60 mt-1">
 					{config.venue.name} {config.venue.hall}

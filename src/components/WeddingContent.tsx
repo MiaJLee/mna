@@ -1,6 +1,6 @@
 "use client";
 
-import { weddingConfig } from "@/config/wedding";
+import type { WeddingConfig } from "@/types";
 import IntroSection from "@/components/sections/IntroSection";
 import GreetingSection from "@/components/sections/GreetingSection";
 import WeddingInfoSection from "@/components/sections/WeddingInfoSection";
@@ -16,48 +16,56 @@ import ShareSection from "@/components/sections/ShareSection";
 import SectionDivider from "@/components/ui/SectionDivider";
 import ScrollIndicator from "@/components/ui/ScrollIndicator";
 
-function ContentSections() {
+function ContentSections({ config }: { config: WeddingConfig }) {
   return (
     <>
-      <GreetingSection config={weddingConfig} />
+      <GreetingSection config={config} />
       <SectionDivider />
-      <WeddingInfoSection config={weddingConfig} />
+      <WeddingInfoSection config={config} />
       <SectionDivider />
-      <AboutUsSection config={weddingConfig} />
+      <AboutUsSection config={config} />
       <SectionDivider />
-      <TimelineSection config={weddingConfig} />
+      <TimelineSection config={config} />
       <SectionDivider />
-      <CalendarSection config={weddingConfig} />
+      <CalendarSection config={config} />
       <SectionDivider />
-      <GallerySection config={weddingConfig} />
+      <GallerySection config={config} />
       <SectionDivider />
-      <TransportSection config={weddingConfig} />
+      <TransportSection config={config} />
+      {config.showAccount !== false && (
+        <>
+          <SectionDivider />
+          <AccountSection config={config} />
+        </>
+      )}
+      {config.showFlowerDecline !== false && <FlowerDeclineSection config={config} />}
       <SectionDivider />
-      <AccountSection config={weddingConfig} />
-      <FlowerDeclineSection config={weddingConfig} />
+      <RsvpSection config={config} />
       <SectionDivider />
-      <RsvpSection config={weddingConfig} />
-      <SectionDivider />
-      <ShareSection config={weddingConfig} />
+      <ShareSection config={config} />
     </>
   );
 }
 
-export default function WeddingContent() {
+export default function WeddingContent({ config }: { config: WeddingConfig }) {
+  const hiddenSections = [
+    ...(config.showAccount === false ? ["account"] : []),
+  ];
+
   return (
     <>
       {/* ── 모바일 레이아웃 (lg 미만): 단일 컬럼 ── */}
       <main className="lg:hidden max-w-[430px] mx-auto bg-cream min-h-screen">
-        <IntroSection config={weddingConfig} />
-        <ScrollIndicator />
-        <ContentSections />
+        <IntroSection config={config} />
+        <ScrollIndicator labels={config.labels.nav} hiddenSections={hiddenSections} />
+        <ContentSections config={config} />
       </main>
 
       {/* ── PC 레이아웃 (lg 이상): 좌 고정 + 우 스크롤, 전체 너비 ── */}
       <div className="hidden lg:flex min-h-screen w-full">
         {/* 좌측: 인트로 이미지 1/3 */}
         <div className="w-1/3 sticky top-0 h-screen">
-          <IntroSection config={weddingConfig} />
+          <IntroSection config={config} />
         </div>
 
         {/* 우측: 정보 영역 스크롤 2/3 */}
@@ -65,9 +73,9 @@ export default function WeddingContent() {
           id="scroll-content"
           className="w-2/3 bg-cream overflow-y-auto h-screen"
         >
-          <ScrollIndicator scrollContainerId="scroll-content" />
+          <ScrollIndicator scrollContainerId="scroll-content" labels={config.labels.nav} hiddenSections={hiddenSections} />
           <div className="max-w-[520px] mx-auto">
-            <ContentSections />
+            <ContentSections config={config} />
           </div>
         </div>
       </div>

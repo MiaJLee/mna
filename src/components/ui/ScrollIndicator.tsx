@@ -1,27 +1,35 @@
 "use client";
 
-import { useEffect, useState, useCallback, useRef } from "react";
-
-const SECTIONS = [
-  { id: "greeting", label: "인사말" },
-  { id: "wedding-info", label: "예식안내" },
-  { id: "about-us", label: "소개" },
-  { id: "timeline", label: "타임라인" },
-  { id: "calendar", label: "캘린더" },
-  { id: "gallery", label: "갤러리" },
-  { id: "transport", label: "오시는길" },
-  { id: "account", label: "축의금" },
-  { id: "rsvp", label: "참석여부" },
-  { id: "share", label: "공유" },
-];
+import { useEffect, useState, useCallback, useRef, useMemo } from "react";
 
 interface ScrollIndicatorProps {
   scrollContainerId?: string;
+  labels?: import("@/types").Labels["nav"];
+  hiddenSections?: string[];
 }
 
 export default function ScrollIndicator({
   scrollContainerId,
+  labels,
+  hiddenSections = [],
 }: ScrollIndicatorProps) {
+  const sections = useMemo(() => {
+    const nav = labels ?? { greeting: "인사말", weddingInfo: "예식안내", aboutUs: "소개", timeline: "타임라인", calendar: "캘린더", gallery: "갤러리", transport: "오시는길", account: "축의금", rsvp: "참석여부", share: "공유" };
+    const all = [
+      { id: "greeting", label: nav.greeting },
+      { id: "wedding-info", label: nav.weddingInfo },
+      { id: "about-us", label: nav.aboutUs },
+      { id: "timeline", label: nav.timeline },
+      { id: "calendar", label: nav.calendar },
+      { id: "gallery", label: nav.gallery },
+      { id: "transport", label: nav.transport },
+      { id: "account", label: nav.account },
+      { id: "rsvp", label: nav.rsvp },
+      { id: "share", label: nav.share },
+    ];
+    return all.filter((s) => !hiddenSections.includes(s.id));
+  }, [labels, hiddenSections]);
+
   const [activeIndex, setActiveIndex] = useState(0);
   const [progress, setProgress] = useState(0);
   const [visible, setVisible] = useState(false);
@@ -63,7 +71,7 @@ export default function ScrollIndicator({
     }
 
     // 현재 활성 섹션 감지 (컨테이너 범위 내에서 검색)
-    const sectionElements = SECTIONS.map((s) =>
+    const sectionElements = sections.map((s) =>
       findSectionElement(s.id)
     ).filter(Boolean) as HTMLElement[];
 
@@ -83,7 +91,7 @@ export default function ScrollIndicator({
       const rect = greetingEl.getBoundingClientRect();
       setVisible(rect.top <= 0);
     }
-  }, [getScrollSource, findSectionElement]);
+  }, [getScrollSource, findSectionElement, sections]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -129,7 +137,7 @@ export default function ScrollIndicator({
 
       {/* 섹션 네비게이션 */}
       <div className="flex items-center gap-0.5 px-2 py-1.5 overflow-x-auto scrollbar-hide">
-        {SECTIONS.map((section, idx) => (
+        {sections.map((section, idx) => (
           <button
             key={section.id}
             onClick={() => handleClick(section.id)}

@@ -2,7 +2,7 @@ import type { WeddingConfig } from '@/types'
 import AnimateOnScroll from '@/components/ui/AnimateOnScroll'
 
 const icons: Record<string, string> = {
-	subway: '🚇',
+	metro: '🚇',
 	bus: '🚌',
 	car: '🚗',
 	parking: '🅿️',
@@ -12,7 +12,9 @@ export default function TransportSection({ config }: { config: WeddingConfig }) 
 	return (
 		<section id="transport" className="w-full max-w-[430px] mx-auto px-6 py-12">
 			<AnimateOnScroll>
-				<h2 className="font-serif text-xl text-brown-dark text-center mb-8">오시는 길</h2>
+				<h2 className="font-serif text-xl text-brown-dark text-center mb-8">
+					{config.labels.transportTitle}
+				</h2>
 			</AnimateOnScroll>
 
 			<div className="space-y-3">

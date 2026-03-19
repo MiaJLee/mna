@@ -1,6 +1,8 @@
 import type { WeddingConfig } from '@/types'
+import { labelsKo } from './labels.ko'
 
 export const weddingConfig: WeddingConfig = {
+	labels: labelsKo,
 	// ── 신랑 신부 정보 ──────────────────────────────
 	groom: {
 		role: '신랑',
@@ -112,7 +114,7 @@ export const weddingConfig: WeddingConfig = {
 	// ── 교통 안내 ──────────────────────────────────
 	transport: [
 		{
-			type: 'subway',
+			type: 'metro',
 			title: '지하철',
 			details: [
 				'4호선 혜화역 하차 ④번출구',

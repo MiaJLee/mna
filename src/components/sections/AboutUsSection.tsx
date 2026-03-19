@@ -43,8 +43,8 @@ export default function AboutUsSection({ config }: { config: WeddingConfig }) {
 	return (
 		<section id="about-us" className="w-full max-w-[430px] mx-auto px-6 py-12">
 			<AnimateOnScroll>
-				<h2 className="font-serif text-xl text-brown-dark text-center mb-2">ABOUT US</h2>
-				<p className="text-s text-warm-gray text-center mb-8">하나로 이어진 두개의 우주</p>
+				<h2 className="font-serif text-xl text-brown-dark text-center mb-2">{config.labels.aboutUsTitle}</h2>
+				<p className="text-s text-warm-gray text-center mb-8">{config.labels.aboutUsSubtitle}</p>
 			</AnimateOnScroll>
 
 			<div className="space-y-4">

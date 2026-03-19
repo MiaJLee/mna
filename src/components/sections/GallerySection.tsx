@@ -18,7 +18,7 @@ export default function GallerySection({
     <section id="gallery" className="w-full max-w-[430px] mx-auto px-6 py-12">
       <AnimateOnScroll>
         <h2 className="font-serif text-xl text-brown-dark text-center mb-8">
-          우리의 순간
+          {config.labels.galleryTitle}
         </h2>
       </AnimateOnScroll>
 

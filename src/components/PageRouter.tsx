@@ -3,6 +3,8 @@
 import { useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
 import WeddingContent from "@/components/WeddingContent";
+import { weddingConfig } from "@/config/wedding";
+import { weddingConfigEn } from "@/config/wedding.en";
 
 const GameApp = dynamic(() => import("@/components/game/GameApp"), {
   ssr: false,
@@ -17,10 +19,13 @@ const GameApp = dynamic(() => import("@/components/game/GameApp"), {
 export default function PageRouter() {
   const searchParams = useSearchParams();
   const type = searchParams.get("type");
+  const lang = searchParams.get("lang");
 
   if (type === "game") {
     return <GameApp />;
   }
 
-  return <WeddingContent />;
+  const config = lang === "en" ? weddingConfigEn : weddingConfig;
+
+  return <WeddingContent config={config} />;
 }

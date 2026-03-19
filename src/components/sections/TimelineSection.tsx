@@ -13,10 +13,10 @@ export default function TimelineSection({
     <section id="timeline" className="w-full max-w-[430px] mx-auto px-6 py-12">
       <AnimateOnScroll>
         <h2 className="font-serif text-xl text-brown-dark text-center mb-2">
-          OUR TIMELINE
+          {config.labels.timelineTitle}
         </h2>
         <p className="text-xs text-warm-gray text-center mb-10">
-          서로에게 참 소중하고 감사한 존재
+          {config.labels.timelineSubtitle}
         </p>
       </AnimateOnScroll>
 
@@ -56,6 +56,7 @@ export default function TimelineSection({
                         <RelationshipDaysLabel
                           startDate={config.relationshipStartDate}
                           className="inline-block"
+                          formatLabel={config.labels.relationshipDaysLabel}
                         />
                       ) : (
                         event.date

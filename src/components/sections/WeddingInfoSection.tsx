@@ -4,13 +4,13 @@ import type { WeddingConfig } from '@/types'
 import AnimateOnScroll from '@/components/ui/AnimateOnScroll'
 import CopyButton from '@/components/ui/CopyButton'
 import KakaoMapClient from '@/components/KakaoMapClient'
-import { parseWeddingDate, formatKoreanFull } from '@/lib/weddingDate'
+import { parseWeddingDate, formatFull } from '@/lib/weddingDate'
 
 export default function WeddingInfoSection({ config }: { config: WeddingConfig }) {
 	return (
 		<section id="wedding-info" className="w-full max-w-[430px] mx-auto px-6 py-12">
 			<AnimateOnScroll>
-				<h2 className="font-serif text-xl text-brown-dark text-center mb-8">예식 안내</h2>
+				<h2 className="font-serif text-xl text-brown-dark text-center mb-8">{config.labels.weddingInfoTitle}</h2>
 			</AnimateOnScroll>
 
 			<AnimateOnScroll delay={100}>
@@ -18,14 +18,26 @@ export default function WeddingInfoSection({ config }: { config: WeddingConfig }
 					<p className="text-lg font-serif text-brown-dark mb-1">{config.venue.name}</p>
 					<p className="text-sm text-warm-gray">{config.venue.hall}</p>
 					<p className="text-sm text-brown mt-3">
-						{formatKoreanFull(parseWeddingDate(config.datetime))}
+						{formatFull(parseWeddingDate(config.datetime), config.labels.locale)}
 					</p>
 				</div>
 			</AnimateOnScroll>
 
 			<AnimateOnScroll delay={200}>
 				<div className="rounded-xl overflow-hidden border border-beige mb-4">
-					<KakaoMapClient />
+					{config.googleMapsEmbedUrl ? (
+						<iframe
+							src={config.googleMapsEmbedUrl}
+							title="Google Maps"
+							className="w-full border-0"
+							style={{ height: '260px' }}
+							allowFullScreen
+							loading="lazy"
+							referrerPolicy="no-referrer-when-downgrade"
+						/>
+					) : (
+						<KakaoMapClient />
+					)}
 				</div>
 			</AnimateOnScroll>
 
@@ -33,7 +45,7 @@ export default function WeddingInfoSection({ config }: { config: WeddingConfig }
 				<div className="bg-warm-white rounded-xl p-4 border border-beige/50 mb-4">
 					<div className="flex items-center justify-between">
 						<p className="text-xs text-brown flex-1">{config.venue.address}</p>
-						<CopyButton text={config.venue.address} label="주소 복사" />
+						<CopyButton text={config.venue.address} label={config.labels.copyAddress} />
 					</div>
 					{config.venue.tel && <p className="text-xs text-warm-gray mt-1">Tel. {config.venue.tel}</p>}
 				</div>

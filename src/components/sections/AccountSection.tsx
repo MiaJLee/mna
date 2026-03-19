@@ -14,10 +14,10 @@ export default function AccountSection({
     <section id="account" className="w-full max-w-[430px] mx-auto px-6 py-12">
       <AnimateOnScroll>
         <h2 className="font-serif text-xl text-brown-dark text-center mb-2">
-          마음 전하실 곳
+          {config.labels.accountTitle}
         </h2>
         <p className="text-xs text-warm-gray text-center mb-8">
-          축하의 마음을 전해주세요
+          {config.labels.accountSubtitle}
         </p>
       </AnimateOnScroll>
 
@@ -46,7 +46,7 @@ export default function AccountSection({
                     <div className="flex gap-1.5 shrink-0 ml-3">
                       <CopyButton
                         text={`${account.bank} ${account.accountNumber}`}
-                        label="복사"
+                        label={config.labels.accountCopy}
                       />
                       {account.kakaoPayUrl &&
                         account.kakaoPayUrl !== "https://qr.kakaopay.com/PLACEHOLDER" && (
@@ -56,7 +56,7 @@ export default function AccountSection({
                             rel="noopener noreferrer"
                             className="px-3 py-1.5 text-xs bg-yellow-400 text-yellow-900 rounded-lg hover:bg-yellow-500 transition-colors"
                           >
-                            송금
+                            {config.labels.accountSend}
                           </a>
                         )}
                     </div>

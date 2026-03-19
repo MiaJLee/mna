@@ -5,7 +5,7 @@ import type { WeddingConfig } from "@/types";
 import AnimateOnScroll from "@/components/ui/AnimateOnScroll";
 import Toast from "@/components/ui/Toast";
 import { initKakao, shareKakao } from "@/lib/kakao";
-import { parseWeddingDate, formatKoreanFull } from "@/lib/weddingDate";
+import { parseWeddingDate, formatFull } from "@/lib/weddingDate";
 
 export default function ShareSection({ config }: { config: WeddingConfig }) {
   const [showToast, setShowToast] = useState(false);
@@ -18,8 +18,8 @@ export default function ShareSection({ config }: { config: WeddingConfig }) {
 
   const handleKakaoShare = () => {
     shareKakao({
-      title: `${config.groom.name} ♥ ${config.bride.name} 결혼합니다`,
-      description: formatKoreanFull(parseWeddingDate(config.datetime)) + " | " + config.venue.name,
+      title: `${config.groom.name} ♥ ${config.bride.name} ${config.labels.shareMarrying}`,
+      description: formatFull(parseWeddingDate(config.datetime), config.labels.locale) + " | " + config.venue.name,
       imageUrl: config.siteUrl + config.ogImage,
       webUrl: config.siteUrl,
     });
@@ -45,8 +45,8 @@ export default function ShareSection({ config }: { config: WeddingConfig }) {
     if (navigator.share) {
       try {
         await navigator.share({
-          title: `${config.groom.name} ♥ ${config.bride.name} 결혼식에 초대합니다`,
-          text: formatKoreanFull(parseWeddingDate(config.datetime)) + " | " + config.venue.name,
+          title: `${config.groom.name} ♥ ${config.bride.name} ${config.labels.shareInvite}`,
+          text: formatFull(parseWeddingDate(config.datetime), config.labels.locale) + " | " + config.venue.name,
           url: config.siteUrl,
         });
       } catch {
@@ -59,7 +59,7 @@ export default function ShareSection({ config }: { config: WeddingConfig }) {
     <section id="share" className="w-full max-w-[430px] mx-auto px-6 py-12 pb-20">
       <AnimateOnScroll>
         <h2 className="font-serif text-xl text-brown-dark text-center mb-8">
-          공유하기
+          {config.labels.shareTitle}
         </h2>
 
         <div className="flex justify-center gap-4">
@@ -70,7 +70,7 @@ export default function ShareSection({ config }: { config: WeddingConfig }) {
             <div className="w-14 h-14 bg-yellow-400 rounded-2xl flex items-center justify-center text-2xl shadow-sm hover:shadow-md transition-shadow">
               💬
             </div>
-            <span className="text-xs text-brown">카카오톡</span>
+            <span className="text-xs text-brown">{config.labels.shareKakao}</span>
           </button>
 
           <button
@@ -80,7 +80,7 @@ export default function ShareSection({ config }: { config: WeddingConfig }) {
             <div className="w-14 h-14 bg-sage-100 rounded-2xl flex items-center justify-center text-2xl shadow-sm hover:shadow-md transition-shadow">
               🔗
             </div>
-            <span className="text-xs text-brown">URL 복사</span>
+            <span className="text-xs text-brown">{config.labels.shareUrl}</span>
           </button>
 
           <button
@@ -90,7 +90,7 @@ export default function ShareSection({ config }: { config: WeddingConfig }) {
             <div className="w-14 h-14 bg-ivory rounded-2xl flex items-center justify-center text-2xl shadow-sm hover:shadow-md transition-shadow border border-beige/50">
               📤
             </div>
-            <span className="text-xs text-brown">공유</span>
+            <span className="text-xs text-brown">{config.labels.shareNative}</span>
           </button>
         </div>
 
@@ -102,7 +102,7 @@ export default function ShareSection({ config }: { config: WeddingConfig }) {
       </AnimateOnScroll>
 
       <Toast
-        message="링크가 복사되었습니다!"
+        message={config.labels.shareCopied}
         isVisible={showToast}
         onClose={() => setShowToast(false)}
       />

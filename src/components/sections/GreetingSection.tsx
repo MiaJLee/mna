@@ -8,7 +8,7 @@ export default function GreetingSection({ config }: { config: WeddingConfig }) {
 			<SectionDivider />
 			<AnimateOnScroll>
 				<div className="text-center py-8">
-					<h2 className="font-serif text-xl text-brown-dark mb-8">초대합니다</h2>
+					<h2 className="font-serif text-xl text-brown-dark mb-8">{config.labels.greetingTitle}</h2>
 					<p className="text-sm text-brown leading-7 whitespace-pre-line">{config.greeting}</p>
 					<div className="mt-8 text-sm text-warm-gray">
 						<p>

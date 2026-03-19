@@ -1,10 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { weddingConfig } from "@/config/wedding";
-import { parseWeddingDate, formatKoreanFull } from "@/lib/weddingDate";
+import { parseWeddingDate, formatFull } from "@/lib/weddingDate";
 import "./globals.css";
 
-const weddingDateStr = formatKoreanFull(parseWeddingDate(weddingConfig.datetime));
+const weddingDateStr = formatFull(parseWeddingDate(weddingConfig.datetime), "ko");
 
 export const metadata: Metadata = {
   metadataBase: new URL(weddingConfig.siteUrl || "https://example.github.io/mna"),
