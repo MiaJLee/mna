@@ -1,6 +1,8 @@
 export interface Person {
 	role: string
 	name: string
+	lastName: string
+	firstName: string
 	fatherName: string
 	motherName: string
 	relation: string

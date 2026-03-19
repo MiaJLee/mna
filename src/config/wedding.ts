@@ -5,6 +5,8 @@ export const weddingConfig: WeddingConfig = {
 	groom: {
 		role: '신랑',
 		name: '박종혁',
+		lastName: '박',
+		firstName: '종혁',
 		fatherName: '박상배',
 		motherName: '김미영',
 		relation: '의 장남',
@@ -12,6 +14,8 @@ export const weddingConfig: WeddingConfig = {
 	bride: {
 		role: '신부',
 		name: '이지형',
+		lastName: '이',
+		firstName: '지형',
 		fatherName: '이근재',
 		motherName: '이미승',
 		relation: '의 장녀',

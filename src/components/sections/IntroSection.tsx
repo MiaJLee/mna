@@ -1,59 +1,52 @@
-import Image from "next/image";
-import type { WeddingConfig } from "@/types";
-import { withBasePath } from "@/config/basePath";
-import { parseWeddingDate, formatDotDate, formatKoreanTime } from "@/lib/weddingDate";
+import Image from 'next/image'
+import type { WeddingConfig } from '@/types'
+import { withBasePath } from '@/config/basePath'
+import { parseWeddingDate, formatDotDate, formatKoreanTime } from '@/lib/weddingDate'
 
 export default function IntroSection({ config }: { config: WeddingConfig }) {
-  const dt = parseWeddingDate(config.datetime);
+	const dt = parseWeddingDate(config.datetime)
 
-  return (
-    <section
-      id="intro"
-      className="relative h-dvh w-full overflow-hidden lg:h-full lg:min-h-screen"
-    >
-      <Image
-        src={withBasePath("/images/main.jpg")}
-        alt="웨딩 사진"
-        fill
-        className="object-cover scale-125"
-        sizes="(min-width: 1024px) 33vw, 100vw"
-        priority
-      />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+	return (
+		<section id="intro" className="relative h-dvh w-full overflow-hidden lg:h-full lg:min-h-screen">
+			<Image
+				src={withBasePath('/images/main.jpg')}
+				alt="웨딩 사진"
+				fill
+				className="object-cover scale-120 brightness-110"
+				sizes="(min-width: 1024px) 33vw, 100vw"
+				priority
+			/>
+			<div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-transparent" />
 
-      <div className="absolute inset-0 flex flex-col items-center justify-end pb-20 px-6 text-white lg:justify-center lg:pb-0">
-        <p className="text-sm tracking-[0.3em] mb-4 opacity-80 font-light">
-          WEDDING INVITATION
-        </p>
-        <h1 className="font-serif text-3xl mb-3 tracking-wide">
-          {config.groom.name}
-          <span className="mx-3 text-lg opacity-70">&</span>
-          {config.bride.name}
-        </h1>
-        <p className="text-sm opacity-80 tracking-wider">
-          {formatDotDate(dt)} {formatKoreanTime(dt)}
-        </p>
-        <p className="text-xs opacity-60 mt-2">
-          {config.venue.name} {config.venue.hall}
-        </p>
+			<div className="absolute inset-0 flex flex-col items-center justify-start pt-20 px-6 text-white lg:justify-center lg:pt-0">
+				<p className="text-[4rem] mb-3 text-rose-300" style={{ fontFamily: "'Meow Script', cursive" }}>
+					Save the Date
+				</p>
+				<h1 className="font-serif text-xl mb-3 tracking-wide">
+					<span className="opacity-70">{config.groom.name}</span>
+					<span className="mx-3 text-lg opacity-70">&</span>
+					<span className="opacity-70">{config.bride.name}</span>
+				</h1>
+				<p className="text-m opacity-80 tracking-wider">
+					{formatDotDate(dt)} {formatKoreanTime(dt)}
+				</p>
+				<p className="text-s opacity-60 mt-1">
+					{config.venue.name} {config.venue.hall}
+				</p>
+			</div>
 
-        {/* 모바일에서만 스크롤 화살표 */}
-        <div className="mt-10 animate-bounce opacity-50 lg:hidden">
-          <svg
-            className="w-5 h-5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={1.5}
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M19 14l-7 7-7-7"
-            />
-          </svg>
-        </div>
-      </div>
-    </section>
-  );
+			{/* 모바일에서만 스크롤 화살표 - 하단 고정 */}
+			<div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce opacity-50 lg:hidden">
+				<svg
+					className="w-5 h-5 text-white"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke="currentColor"
+					strokeWidth={1.5}
+				>
+					<path strokeLinecap="round" strokeLinejoin="round" d="M19 14l-7 7-7-7" />
+				</svg>
+			</div>
+		</section>
+	)
 }

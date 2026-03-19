@@ -17,7 +17,7 @@ export default function KakaoMapClient() {
     </head>
     <body>
       <div id="daumRoughmapContainer1773924971332"
-           class="root_daum_roughmap root_daum_roughmap_landing"></div>
+          class="root_daum_roughmap root_daum_roughmap_landing"></div>
       <script charset="UTF-8"
               src="https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js"></script>
       <script charset="UTF-8">
