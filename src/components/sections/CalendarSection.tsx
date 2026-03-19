@@ -1,10 +1,10 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
 import type { WeddingConfig } from "@/types";
 import AnimateOnScroll from "@/components/ui/AnimateOnScroll";
-import { generateIcs } from "@/lib/generateIcs";
-import { parseWeddingDate, formatKoreanFull, calcDDay } from "@/lib/weddingDate";
+import { parseWeddingDate, formatKoreanFull } from "@/lib/weddingDate";
+import { generateIcs, getGoogleCalendarUrl } from "@/lib/generateIcs";
 
 const DAY_NAMES = ["일", "월", "화", "수", "목", "금", "토"];
 
@@ -21,7 +21,24 @@ export default function CalendarSection({
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const firstDayOfWeek = new Date(year, month, 1).getDay();
 
-  const dDay = useMemo(() => calcDDay(dt), [dt]);
+  const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+
+  useEffect(() => {
+    const target = dt.toMillis();
+    const update = () => {
+      const now = Date.now();
+      const diff = Math.max(0, target - now);
+      setCountdown({
+        days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((diff / (1000 * 60)) % 60),
+        seconds: Math.floor((diff / 1000) % 60),
+      });
+    };
+    update();
+    const timer = setInterval(update, 1000);
+    return () => clearInterval(timer);
+  }, [dt]);
 
   const calendarDays = useMemo(() => {
     const days: (number | null)[] = [];
@@ -30,7 +47,12 @@ export default function CalendarSection({
     return days;
   }, [firstDayOfWeek, daysInMonth]);
 
-  const handleAddToCalendar = () => {
+  const googleCalUrl = useMemo(
+    () => getGoogleCalendarUrl(config.datetime, config.venue.name, config.venue.address),
+    [config.datetime, config.venue.name, config.venue.address]
+  );
+
+  const handleAppleCalendar = () => {
     generateIcs(config.datetime, config.venue.name, config.venue.address);
   };
 
@@ -83,22 +105,40 @@ export default function CalendarSection({
           </div>
 
           <div className="mt-6 text-center">
-            <p className="text-sm text-brown mb-1">{formatKoreanFull(dt)}</p>
-            <p className="text-lg font-serif text-sage-600 mt-2">
-              {dDay > 0
-                ? `D-${dDay}`
-                : dDay === 0
-                  ? "D-Day"
-                  : `D+${Math.abs(dDay)}`}
-            </p>
+            <p className="text-sm text-brown mb-3">{formatKoreanFull(dt)}</p>
+            <div className="flex justify-center gap-3">
+              {[
+                { value: countdown.days, label: "Days" },
+                { value: countdown.hours, label: "Hours" },
+                { value: countdown.minutes, label: "Min" },
+                { value: countdown.seconds, label: "Sec" },
+              ].map((item) => (
+                <div key={item.label} className="flex flex-col items-center">
+                  <span className="text-2xl font-serif text-sage-600 tabular-nums w-12 text-center">
+                    {String(item.value).padStart(2, "0")}
+                  </span>
+                  <span className="text-[10px] text-warm-gray mt-1">{item.label}</span>
+                </div>
+              ))}
+            </div>
           </div>
 
-          <button
-            onClick={handleAddToCalendar}
-            className="mt-5 w-full py-3 bg-sage-100 text-sage-700 text-sm rounded-xl hover:bg-sage-200 transition-colors"
-          >
-            📅 캘린더에 추가하기
-          </button>
+          <div className="mt-5 flex gap-2">
+            <a
+              href={googleCalUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 py-3 bg-sage-100 text-sage-700 text-sm rounded-xl hover:bg-sage-200 transition-colors text-center"
+            >
+              📅 Google
+            </a>
+            <button
+              onClick={handleAppleCalendar}
+              className="flex-1 py-3 bg-sage-100 text-sage-700 text-sm rounded-xl hover:bg-sage-200 transition-colors"
+            >
+              📅 Apple
+            </button>
+          </div>
         </div>
       </AnimateOnScroll>
     </section>

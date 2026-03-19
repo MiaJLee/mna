@@ -11,7 +11,7 @@ function GameAppInner() {
   const { state } = useGameState();
 
   return (
-    <div className="fixed inset-0 w-screen h-screen bg-gradient-to-b from-pink-50 via-rose-50 to-orange-50">
+    <div className="fixed inset-0 w-screen h-screen bg-gradient-to-b from-pink-50 via-sage-50 to-orange-50">
       <Canvas
         camera={{ position: [0, 5, 10], fov: 55, near: 0.1, far: 100 }}
         style={{ position: "absolute", inset: 0 }}

@@ -3,7 +3,6 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 
 const SECTIONS = [
-  { id: "basic-info", label: "기본정보" },
   { id: "greeting", label: "인사말" },
   { id: "wedding-info", label: "예식안내" },
   { id: "calendar", label: "캘린더" },
@@ -24,6 +23,7 @@ export default function ScrollIndicator({
 }: ScrollIndicatorProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [progress, setProgress] = useState(0);
+  const [visible, setVisible] = useState(false);
   const barRef = useRef<HTMLDivElement>(null);
 
   const getScrollSource = useCallback(() => {
@@ -75,6 +75,13 @@ export default function ScrollIndicator({
       }
     }
     setActiveIndex(currentIdx);
+
+    // 인사말 섹션에 도달하면 인디케이터 표시
+    const greetingEl = findSectionElement("greeting");
+    if (greetingEl) {
+      const rect = greetingEl.getBoundingClientRect();
+      setVisible(rect.top <= 0);
+    }
   }, [getScrollSource, findSectionElement]);
 
   useEffect(() => {
@@ -108,7 +115,7 @@ export default function ScrollIndicator({
   };
 
   return (
-    <div ref={barRef} className="sticky top-0 z-40 bg-cream/90 backdrop-blur-md border-b border-beige/20">
+    <div ref={barRef} className={`sticky top-0 z-40 bg-cream/90 backdrop-blur-md border-b border-beige/20 transition-opacity duration-700 ${visible ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
       {/* 프로그래스 바 */}
       <div className="h-[3px] bg-beige/20">
         <div
@@ -123,7 +130,7 @@ export default function ScrollIndicator({
           <button
             key={section.id}
             onClick={() => handleClick(section.id)}
-            className={`shrink-0 px-2.5 py-1 rounded-full text-[10px] transition-all duration-300 whitespace-nowrap ${
+            className={`shrink-0 px-2.5 py-1 rounded-full text-xs transition-all duration-300 whitespace-nowrap ${
               idx === activeIndex
                 ? "bg-sage-400 text-white font-medium shadow-sm"
                 : "text-warm-gray hover:text-brown hover:bg-sage-50"
