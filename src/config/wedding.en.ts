@@ -33,6 +33,12 @@ export const weddingConfigEn: WeddingConfig = {
 		hall: '3F Story Hall',
 		address: '31 Sungkyunkwan-ro, Jongno-gu, Seoul',
 	},
+	navigationLinks: [
+		{
+			name: 'Google Maps',
+			url: 'https://maps.google.com/maps?q=37.5854,126.9967',
+		},
+	],
 
 	greeting: `The love we have built together,
 we now wish to carry forward

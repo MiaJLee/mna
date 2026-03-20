@@ -40,16 +40,12 @@ export const weddingConfig: WeddingConfig = {
 	},
 	navigationLinks: [
 		{
-			name: '카카오내비',
-			url: 'https://map.kakao.com/link/to/성균관컨벤션웨딩홀,37.5752,126.9771',
+			name: '카카오맵',
+			url: 'https://map.kakao.com/link/to/성균관컨벤션웨딩홀,37.5854,126.9967',
 		},
 		{
 			name: '네이버지도',
-			url: 'https://map.naver.com/v5/search/더채플앳청담',
-		},
-		{
-			name: '티맵',
-			url: 'https://apis.openapi.sk.com/tmap/app/routes?appKey=PLACEHOLDER&goalx=127.0448&goaly=37.524&goalname=더채플앳청담',
+			url: 'https://map.naver.com/v5/search/성균관컨벤션웨딩홀',
 		},
 	],
 
