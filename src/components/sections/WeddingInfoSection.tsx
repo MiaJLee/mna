@@ -52,7 +52,7 @@ export default function WeddingInfoSection({ config }: { config: WeddingConfig }
 			</AnimateOnScroll>
 
 			<AnimateOnScroll delay={400}>
-				<div className="grid grid-cols-3 gap-2">
+				<div className={`grid gap-2 ${config.navigationLinks.length === 1 ? "grid-cols-1" : "grid-cols-2"}`}>
 					{config.navigationLinks.map((link) => (
 						<a
 							key={link.name}

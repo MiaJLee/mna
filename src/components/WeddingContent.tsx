@@ -1,6 +1,8 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import type { WeddingConfig } from "@/types";
+import { withBasePath } from "@/config/basePath";
 import IntroSection from "@/components/sections/IntroSection";
 import GreetingSection from "@/components/sections/GreetingSection";
 import WeddingInfoSection from "@/components/sections/WeddingInfoSection";
@@ -47,10 +49,52 @@ function ContentSections({ config }: { config: WeddingConfig }) {
   );
 }
 
+function collectImageUrls(config: WeddingConfig): string[] {
+  const urls: string[] = [];
+  urls.push(withBasePath("/images/main.jpg"));
+  if (config.groom.childhoodPhoto) urls.push(withBasePath(config.groom.childhoodPhoto));
+  if (config.bride.childhoodPhoto) urls.push(withBasePath(config.bride.childhoodPhoto));
+  for (const item of config.timeline) {
+    if (item.image) urls.push(withBasePath(item.image));
+  }
+  for (const img of config.gallery) {
+    urls.push(withBasePath(img.src));
+  }
+  return urls;
+}
+
+function preloadImages(urls: string[]): Promise<void> {
+  return Promise.all(
+    urls.map(
+      (url) =>
+        new Promise<void>((resolve) => {
+          const img = new Image();
+          img.onload = () => resolve();
+          img.onerror = () => resolve();
+          img.src = url;
+        })
+    )
+  ).then(() => {});
+}
+
 export default function WeddingContent({ config }: { config: WeddingConfig }) {
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    preloadImages(collectImageUrls(config)).then(() => setReady(true));
+  }, [config]);
+
   const hiddenSections = [
     ...(config.showAccount === false ? ["account"] : []),
   ];
+
+  if (!ready) {
+    return (
+      <div className="min-h-screen bg-cream flex items-center justify-center">
+        <p className="text-brown font-serif animate-pulse">Loading...</p>
+      </div>
+    );
+  }
 
   return (
     <>
