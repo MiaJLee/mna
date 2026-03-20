@@ -1,3 +1,6 @@
+'use client'
+
+import { useEffect, useRef } from 'react'
 import ImageWithFallback from '@/components/ui/ImageWithFallback'
 import type { WeddingConfig } from '@/types'
 import { withBasePath } from '@/config/basePath'
@@ -5,9 +8,20 @@ import { parseWeddingDate, formatDotDate, formatTime } from '@/lib/weddingDate'
 
 export default function IntroSection({ config }: { config: WeddingConfig }) {
 	const dt = parseWeddingDate(config.datetime)
+	const sectionRef = useRef<HTMLElement>(null)
+
+	useEffect(() => {
+		if (sectionRef.current && window.innerWidth < 1024) {
+			sectionRef.current.style.height = `${window.innerHeight}px`
+		}
+	}, [])
 
 	return (
-		<section id="intro" className="relative h-dvh w-full overflow-hidden lg:h-full lg:min-h-screen">
+		<section
+			ref={sectionRef}
+			id="intro"
+			className="relative h-dvh w-full overflow-hidden lg:h-full lg:min-h-screen"
+		>
 			<ImageWithFallback
 				src={withBasePath('/images/main.jpg')}
 				alt="웨딩 사진"
@@ -18,14 +32,14 @@ export default function IntroSection({ config }: { config: WeddingConfig }) {
 			/>
 			<div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-transparent" />
 
-			<div className="absolute inset-0 flex flex-col items-center justify-start pt-20 px-6 text-white lg:justify-center lg:pt-0">
+			<div className="absolute inset-0 flex flex-col items-center justify-start pt-20 px-6 text-white lg:justify-start lg:pt-24">
 				<p className="text-[4rem] mb-3 text-rose-300" style={{ fontFamily: "'Meow Script', cursive" }}>
 					{config.labels.saveTheDate}
 				</p>
 				<h1 className="font-serif text-xl mb-3 tracking-wide">
-					<span className="opacity-70">{config.groom.name}</span>
+					<span className="opacity-70">{config.groom.firstName}</span>
 					<span className="mx-3 text-lg opacity-70">&</span>
-					<span className="opacity-70">{config.bride.name}</span>
+					<span className="opacity-70">{config.bride.firstName}</span>
 				</h1>
 				<p className="text-m opacity-80 tracking-wider">
 					{formatDotDate(dt)} {formatTime(dt, config.labels.locale)}
