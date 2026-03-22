@@ -7,12 +7,19 @@ import AnimateOnScroll from "@/components/ui/AnimateOnScroll";
 import Lightbox from "@/components/ui/Lightbox";
 import { withBasePath } from "@/config/basePath";
 
+/** /images/gallery/photo.jpg → /images/gallery/thumbs/photo.jpg */
+function toThumbSrc(src: string): string {
+  const lastSlash = src.lastIndexOf("/");
+  return src.slice(0, lastSlash) + "/thumbs" + src.slice(lastSlash);
+}
+
 export default function GallerySection({
   config,
 }: {
   config: WeddingConfig;
 }) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const images = config.gallery.slice(0, 12);
 
   return (
     <section id="gallery" className="w-full max-w-[430px] mx-auto px-6 py-12">
@@ -23,18 +30,18 @@ export default function GallerySection({
       </AnimateOnScroll>
 
       <div className="grid grid-cols-3 gap-2">
-        {config.gallery.slice(0, 12).map((img, idx) => (
+        {images.map((img, idx) => (
           <AnimateOnScroll key={idx} delay={idx * 50}>
             <button
               onClick={() => setSelectedIndex(idx)}
               className="relative aspect-square w-full overflow-hidden rounded-lg"
             >
               <ImageWithFallback
-                src={withBasePath(img.src)}
+                src={withBasePath(toThumbSrc(img.src))}
                 alt={img.alt}
                 fill
                 className="object-cover hover:scale-105 transition-transform duration-300"
-                sizes="33vw"
+                sizes="143px"
               />
             </button>
           </AnimateOnScroll>
@@ -43,7 +50,8 @@ export default function GallerySection({
 
       {selectedIndex !== null && (
         <Lightbox
-          images={config.gallery.slice(0, 12)}
+          key={selectedIndex}
+          images={images}
           currentIndex={selectedIndex}
           onClose={() => setSelectedIndex(null)}
         />

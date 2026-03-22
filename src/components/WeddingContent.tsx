@@ -58,7 +58,10 @@ function collectImageUrls(config: WeddingConfig): string[] {
     if (item.image) urls.push(withBasePath(item.image));
   }
   for (const img of config.gallery) {
-    urls.push(withBasePath(img.src));
+    // 썸네일만 프리로드 (원본은 라이트박스에서 lazy load)
+    const lastSlash = img.src.lastIndexOf("/");
+    const thumbSrc = img.src.slice(0, lastSlash) + "/thumbs" + img.src.slice(lastSlash);
+    urls.push(withBasePath(thumbSrc));
   }
   return urls;
 }
@@ -77,11 +80,16 @@ function preloadImages(urls: string[]): Promise<void> {
   ).then(() => {});
 }
 
+function waitForFonts(): Promise<void> {
+  if (typeof document === "undefined") return Promise.resolve();
+  return document.fonts.ready.then(() => {});
+}
+
 export default function WeddingContent({ config }: { config: WeddingConfig }) {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    preloadImages(collectImageUrls(config)).then(() => setReady(true));
+    Promise.all([preloadImages(collectImageUrls(config)), waitForFonts()]).then(() => setReady(true));
   }, [config]);
 
   const hiddenSections = [

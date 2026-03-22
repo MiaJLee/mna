@@ -93,18 +93,18 @@ export const weddingConfig: WeddingConfig = {
 
 	// ── 갤러리 ──────────────────────────────────────
 	gallery: [
-		{ src: '/images/gallery/gallery-01.jpg', alt: '웨딩 사진 1' },
-		{ src: '/images/gallery/gallery-02.jpg', alt: '웨딩 사진 2' },
-		{ src: '/images/gallery/gallery-03.jpg', alt: '웨딩 사진 3' },
-		{ src: '/images/gallery/gallery-04.jpg', alt: '웨딩 사진 4' },
-		{ src: '/images/gallery/gallery-05.jpg', alt: '웨딩 사진 5' },
-		{ src: '/images/gallery/gallery-06.jpg', alt: '웨딩 사진 6' },
-		{ src: '/images/gallery/gallery-07.jpg', alt: '웨딩 사진 7' },
-		{ src: '/images/gallery/gallery-08.jpg', alt: '웨딩 사진 8' },
-		{ src: '/images/gallery/gallery-09.jpg', alt: '웨딩 사진 9' },
-		{ src: '/images/gallery/gallery-10.jpg', alt: '웨딩 사진 10' },
-		{ src: '/images/gallery/gallery-11.jpg', alt: '웨딩 사진 11' },
-		{ src: '/images/gallery/gallery-12.jpg', alt: '웨딩 사진 12' },
+		{ src: '/images/gallery/gallery_01.jpg', alt: '웨딩 사진 1' },
+		{ src: '/images/gallery/gallery_02.jpg', alt: '웨딩 사진 2' },
+		{ src: '/images/gallery/gallery_03.jpg', alt: '웨딩 사진 3' },
+		{ src: '/images/gallery/gallery_04.jpg', alt: '웨딩 사진 4' },
+		{ src: '/images/gallery/gallery_05.jpg', alt: '웨딩 사진 5' },
+		{ src: '/images/gallery/gallery_06.jpg', alt: '웨딩 사진 6' },
+		{ src: '/images/gallery/gallery_07.jpg', alt: '웨딩 사진 7' },
+		{ src: '/images/gallery/gallery_08.jpg', alt: '웨딩 사진 8' },
+		{ src: '/images/gallery/gallery_09.jpg', alt: '웨딩 사진 9' },
+		{ src: '/images/gallery/gallery_10.jpg', alt: '웨딩 사진 10' },
+		{ src: '/images/gallery/gallery_11.jpg', alt: '웨딩 사진 11' },
+		{ src: '/images/gallery/gallery_12.jpg', alt: '웨딩 사진 12' },
 	],
 
 	// ── 교통 안내 ──────────────────────────────────
@@ -202,7 +202,8 @@ export const weddingConfig: WeddingConfig = {
 	kakaoJsKey: 'PLACEHOLDER_KAKAO_JS_KEY',
 
 	// ── RSVP (Google Forms) ──────────────────
-	googleScriptUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSdBkOa9oxfooMzLHIOll-bRI5mIzFYHYiDob8WYTIQhg7ICLg/formResponse',
+	googleScriptUrl:
+		'https://docs.google.com/forms/d/e/1FAIpQLSdBkOa9oxfooMzLHIOll-bRI5mIzFYHYiDob8WYTIQhg7ICLg/formResponse',
 
 	// ── 공유 설정 ──────────────────────────────────
 	ogImage: '/images/main-og.jpg',
