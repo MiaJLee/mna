@@ -199,7 +199,7 @@ export const weddingConfig: WeddingConfig = {
 	],
 
 	// ── 카카오 API ──────────────────────────────────
-	kakaoJsKey: 'PLACEHOLDER_KAKAO_JS_KEY',
+	kakaoJsKey: process.env.NEXT_PUBLIC_KAKAO_JS_KEY ?? '',
 
 	// ── RSVP (Google Forms) ──────────────────
 	googleScriptUrl:
