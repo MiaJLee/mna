@@ -31,7 +31,7 @@ export default function IntroSection({ config }: { config: WeddingConfig }) {
 				sizes="(min-width: 1024px) 33vw, 100vw"
 				priority
 			/>
-			<div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-transparent" />
+			<div className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/15 to-transparent" />
 			<Sparkles />
 
 			<div className="absolute inset-0 flex flex-col items-center justify-start pt-20 px-6 text-white lg:justify-start lg:pt-24">
