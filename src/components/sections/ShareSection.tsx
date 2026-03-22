@@ -52,20 +52,47 @@ export default function ShareSection({ config }: { config: WeddingConfig }) {
 	}, [shareUrl])
 
 	const handleNativeShare = async () => {
-		if (navigator.share) {
+		const shareData = {
+			title: `${config.groom.name} ♥ ${config.bride.name} ${config.labels.shareInvite}`,
+			text:
+				formatFull(parseWeddingDate(config.datetime), config.labels.locale) +
+				' | ' +
+				config.venue.name,
+			url: shareUrl,
+		}
+
+		// navigator.share 지원 여부 확인 (HTTPS 필수)
+		if (typeof navigator === 'undefined') {
+			alert('[DEBUG] navigator is undefined')
+			return
+		}
+		if (!navigator.share) {
+			alert(`[DEBUG] navigator.share is not available\nProtocol: ${location.protocol}\nUA: ${navigator.userAgent.slice(0, 80)}`)
+		}
+		if (navigator.share && navigator.canShare?.(shareData)) {
 			try {
-				await navigator.share({
-					title: `${config.groom.name} ♥ ${config.bride.name} ${config.labels.shareInvite}`,
-					text:
-						formatFull(parseWeddingDate(config.datetime), config.labels.locale) +
-						' | ' +
-						config.venue.name,
-					url: shareUrl,
-				})
+				await navigator.share(shareData)
+				return
 			} catch {
 				// User cancelled sharing
+				return
 			}
 		}
+
+		// Fallback: URL 복사
+		try {
+			await navigator.clipboard.writeText(shareUrl)
+		} catch {
+			const textarea = document.createElement('textarea')
+			textarea.value = shareUrl
+			textarea.style.position = 'fixed'
+			textarea.style.opacity = '0'
+			document.body.appendChild(textarea)
+			textarea.select()
+			document.execCommand('copy')
+			document.body.removeChild(textarea)
+		}
+		setShowToast(true)
 	}
 
 	return (
