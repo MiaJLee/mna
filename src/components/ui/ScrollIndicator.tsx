@@ -19,13 +19,11 @@ export default function ScrollIndicator({
       { id: "greeting", label: nav.greeting },
       { id: "wedding-info", label: nav.weddingInfo },
       { id: "about-us", label: nav.aboutUs },
-      { id: "timeline", label: nav.timeline },
       { id: "calendar", label: nav.calendar },
       { id: "gallery", label: nav.gallery },
       { id: "transport", label: nav.transport },
       { id: "account", label: nav.account },
       { id: "rsvp", label: nav.rsvp },
-      { id: "share", label: nav.share },
     ];
     return all.filter((s) => !hiddenSections.includes(s.id));
   }, [labels, hiddenSections]);
