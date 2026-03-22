@@ -51,7 +51,7 @@ export default function IntroSection({ config }: { config: WeddingConfig }) {
 				<h1 className="font-serif text-xl mb-1 tracking-wide">
 					<span className="opacity-70">{config.groom.firstName}</span>
 					<span className="mx-3 text-lg opacity-70">&</span>
-					<span className="opacity-70">{config.bride.firstName}</span>
+					<span className="opacity-70 ml-[-2px]">{config.bride.firstName}</span>
 				</h1>
 				<p className="text-m opacity-80 tracking-wider">
 					{formatDotDate(dt)} {formatTime(dt, config.labels.locale)}
