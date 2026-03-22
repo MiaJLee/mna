@@ -61,23 +61,26 @@ export default function ShareSection({ config }: { config: WeddingConfig }) {
 			url: shareUrl,
 		}
 
-		// 카카오톡 인앱 브라우저 → 카카오톡 공유하기로 fallback
+		// 1) 네이티브 공유(Web Share API) 우선
+		if (typeof navigator !== 'undefined' && navigator.share && navigator.canShare?.(shareData)) {
+			try {
+				await navigator.share(shareData)
+				return
+			} catch (err: unknown) {
+				// 사용자가 시트를 닫은 경우에는 fallback 하지 않음
+				const name = err && typeof err === 'object' && 'name' in err ? String((err as { name: string }).name) : ''
+				if (name === 'AbortError') return
+				// 그 외 실패 → 아래 fallback
+			}
+		}
+
+		// 2) 네이티브 공유 불가·실패 시: 카카오톡 인앱이면 카카오 공유
 		if (typeof navigator !== 'undefined' && /KAKAOTALK/i.test(navigator.userAgent)) {
 			handleKakaoShare()
 			return
 		}
 
-		if (typeof navigator !== 'undefined' && navigator.share && navigator.canShare?.(shareData)) {
-			try {
-				await navigator.share(shareData)
-				return
-			} catch {
-				// User cancelled sharing
-				return
-			}
-		}
-
-		// Fallback: URL 복사
+		// 3) Fallback: URL 복사
 		try {
 			await navigator.clipboard.writeText(shareUrl)
 		} catch {
