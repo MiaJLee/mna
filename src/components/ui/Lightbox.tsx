@@ -60,9 +60,11 @@ export default function Lightbox({ images, currentIndex, onClose }: LightboxProp
 		}
 
 		document.body.style.overflow = 'hidden'
+		document.body.style.touchAction = 'none'
 		window.addEventListener('keydown', handleKeyDown)
 		return () => {
 			document.body.style.overflow = ''
+			document.body.style.touchAction = ''
 			window.removeEventListener('keydown', handleKeyDown)
 		}
 	}, [goNext, goPrev, onClose])
@@ -74,6 +76,7 @@ export default function Lightbox({ images, currentIndex, onClose }: LightboxProp
 				if (e.target === e.currentTarget) onClose()
 			}}
 			onContextMenu={(e) => e.preventDefault()}
+			onTouchMove={(e) => e.stopPropagation()}
 		>
 			{/* 닫기 */}
 			<button

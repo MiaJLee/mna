@@ -41,7 +41,8 @@ export default function GallerySection({
         {images.map((img, idx) => (
           <AnimateOnScroll key={idx} delay={idx * 50}>
             <button
-              onClick={() => setSelectedIndex(idx)}
+              type="button"
+              onClick={(e) => { e.preventDefault(); setSelectedIndex(idx); }}
               className="relative aspect-square w-full overflow-hidden rounded-lg"
             >
               <ImageWithFallback
