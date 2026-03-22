@@ -39,7 +39,7 @@ export default function ScrollToTopButton({ scrollContainerId }: { scrollContain
 	return (
 		<button
 			onClick={scrollToTop}
-			className={`fixed bottom-6 right-4 z-50 w-10 h-10 rounded-full bg-sage-400/80 backdrop-blur-sm text-white shadow-lg transition-all duration-300 flex items-center justify-center ${
+			className={`fixed bottom-6 right-4 z-40 w-10 h-10 rounded-full bg-sage-400/80 backdrop-blur-sm text-white shadow-lg transition-all duration-300 flex items-center justify-center ${
 				visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'
 			}`}
 			aria-label="맨 위로 스크롤"
