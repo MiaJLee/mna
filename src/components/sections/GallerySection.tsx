@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ImageWithFallback from "@/components/ui/ImageWithFallback";
 import type { WeddingConfig } from "@/types";
 import AnimateOnScroll from "@/components/ui/AnimateOnScroll";
@@ -20,6 +20,14 @@ export default function GallerySection({
 }) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const images = config.gallery.slice(0, 12);
+
+  // 페이지 진입 후 원본 이미지 백그라운드 프리로드
+  useEffect(() => {
+    images.forEach((img) => {
+      const image = new Image();
+      image.src = withBasePath(img.src);
+    });
+  }, [images]);
 
   return (
     <section id="gallery" className="w-full max-w-[430px] mx-auto px-6 py-12">
