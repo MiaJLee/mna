@@ -16,6 +16,7 @@ import RsvpSection from "@/components/sections/RsvpSection";
 import ShareSection from "@/components/sections/ShareSection";
 import SectionDivider from "@/components/ui/SectionDivider";
 import ScrollIndicator from "@/components/ui/ScrollIndicator";
+import ScrollToTopButton from "@/components/ui/ScrollToTopButton";
 
 function ContentSections({ config }: { config: WeddingConfig }) {
   return (
@@ -84,6 +85,7 @@ export default function WeddingContent({ config }: { config: WeddingConfig }) {
         <IntroSection config={config} />
         <ScrollIndicator labels={config.labels.nav} hiddenSections={hiddenSections} />
         <ContentSections config={config} />
+        <ScrollToTopButton />
       </main>
 
       {/* ── PC 레이아웃 (lg 이상): 좌 고정 + 우 스크롤, 전체 너비 ── */}
@@ -102,6 +104,7 @@ export default function WeddingContent({ config }: { config: WeddingConfig }) {
           <div className="max-w-[520px] mx-auto">
             <ContentSections config={config} />
           </div>
+          <ScrollToTopButton scrollContainerId="scroll-content" />
         </div>
       </div>
     </>
