@@ -38,7 +38,7 @@ export default function IntroSection({ config }: { config: WeddingConfig }) {
 				<Sparkles />
 			</div>
 
-			<div className="absolute inset-0 z-10 flex flex-col items-center justify-start pt-28 px-6 text-white lg:justify-start lg:pt-24 overflow-visible">
+			<div className="absolute inset-0 z-10 flex flex-col items-center justify-start pt-20 px-6 text-white lg:justify-start lg:pt-24 overflow-visible">
 				{/* 줄바꿈 없음 · 항상 한 줄 가운데 · 좁은 화면에서는 좌우로 넘침 */}
 				<div className="w-full flex justify-center overflow-visible shrink-0">
 					<p
