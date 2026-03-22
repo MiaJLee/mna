@@ -5,6 +5,7 @@ import ImageWithFallback from '@/components/ui/ImageWithFallback'
 import type { WeddingConfig } from '@/types'
 import { withBasePath } from '@/config/basePath'
 import { parseWeddingDate, formatDotDate, formatTime } from '@/lib/weddingDate'
+import Sparkles from '@/components/ui/Sparkles'
 
 export default function IntroSection({ config }: { config: WeddingConfig }) {
 	const dt = parseWeddingDate(config.datetime)
@@ -31,6 +32,7 @@ export default function IntroSection({ config }: { config: WeddingConfig }) {
 				priority
 			/>
 			<div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-transparent" />
+			<Sparkles />
 
 			<div className="absolute inset-0 flex flex-col items-center justify-start pt-20 px-6 text-white lg:justify-start lg:pt-24">
 				<p className="text-[4rem] mb-3 text-rose-300" style={{ fontFamily: "'Meow Script', cursive" }}>
