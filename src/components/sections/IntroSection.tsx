@@ -21,24 +21,34 @@ export default function IntroSection({ config }: { config: WeddingConfig }) {
 		<section
 			ref={sectionRef}
 			id="intro"
-			className="relative h-dvh w-full overflow-hidden lg:h-full lg:min-h-screen"
+			className="relative h-dvh w-full overflow-x-visible overflow-y-hidden lg:h-full lg:min-h-screen lg:overflow-y-visible"
 		>
-			<ImageWithFallback
-				src={withBasePath('/images/gallery/web/gallery_01.webp')}
-				alt="웨딩 사진"
-				fill
-				className="object-cover scale-120 brightness-110"
-				sizes="(min-width: 1024px) 33vw, 100vw"
-				priority
-			/>
-			<div className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/15 to-transparent" />
-			<Sparkles />
+			<div className="absolute inset-0 z-0 overflow-hidden">
+				<ImageWithFallback
+					src={withBasePath('/images/gallery/web/gallery_01.webp')}
+					alt="웨딩 사진"
+					fill
+					className="object-cover scale-120 brightness-110"
+					sizes="(min-width: 1024px) 33vw, 100vw"
+					priority
+				/>
+			</div>
+			<div className="absolute inset-0 z-[1] bg-gradient-to-b from-black/45 via-black/15 to-transparent pointer-events-none" />
+			<div className="absolute inset-0 z-[1] pointer-events-none">
+				<Sparkles />
+			</div>
 
-			<div className="absolute inset-0 flex flex-col items-center justify-start pt-20 px-6 text-white lg:justify-start lg:pt-24">
-				<p className="text-[4rem] mb-3 text-rose-300" style={{ fontFamily: "'Meow Script', cursive" }}>
-					{config.labels.saveTheDate}
-				</p>
-				<h1 className="font-serif text-xl mb-3 tracking-wide">
+			<div className="absolute inset-0 z-10 flex flex-col items-center justify-start pt-20 px-6 text-white lg:justify-start lg:pt-24 overflow-visible">
+				{/* 줄바꿈 없음 · 항상 한 줄 가운데 · 좁은 화면에서는 좌우로 넘침 */}
+				<div className="w-full flex justify-center overflow-visible shrink-0">
+					<p
+						className="mb-2 text-rose-300 whitespace-nowrap text-center text-[4rem] leading-none"
+						style={{ fontFamily: "'Meow Script', cursive" }}
+					>
+						{config.labels.saveTheDate}
+					</p>
+				</div>
+				<h1 className="font-serif text-xl mb-1 tracking-wide">
 					<span className="opacity-70">{config.groom.firstName}</span>
 					<span className="mx-3 text-lg opacity-70">&</span>
 					<span className="opacity-70">{config.bride.firstName}</span>

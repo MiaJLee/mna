@@ -89,7 +89,7 @@ export default function WeddingContent({ config }: { config: WeddingConfig }) {
       {/* ── PC 레이아웃 (lg 이상): 좌 고정 + 우 스크롤, 전체 너비 ── */}
       <div className="hidden lg:flex min-h-screen w-full">
         {/* 좌측: 인트로 이미지 1/3 */}
-        <div className="w-1/3 sticky top-0 h-screen">
+        <div className="w-1/3 min-w-0 sticky top-0 h-screen overflow-x-visible">
           <IntroSection config={config} />
         </div>
 

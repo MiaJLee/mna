@@ -47,7 +47,7 @@ body {
   background-color: var(--color-cream);
   color: var(--color-brown-dark);
   font-family: var(--font-sans);
-  overflow-x: hidden;
+  /* 인트로 Save the Date 등 가로 넘침 허용 — 필요 시 개별 섹션에서 overflow 제어 */
 }
 
 ::-webkit-scrollbar {
