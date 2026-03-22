@@ -1,17 +1,20 @@
 export type GamePhase = "start" | "playing" | "gameover";
+export type CharacterType = "bride" | "groom";
 
-export type ObstacleType = "cake" | "bouquet" | "chair" | "gift";
-
-export interface ObstacleData {
-  id: string;
-  type: ObstacleType;
-  lane: number; // -1, 0, 1
-  z: number;
+export interface GameObject {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
 }
 
-export interface CollectibleData {
+export interface ObstacleData extends GameObject {
   id: string;
-  lane: number;
-  z: number;
+  type: "cake" | "gift" | "chair";
+  passed: boolean;
+}
+
+export interface CollectibleData extends GameObject {
+  id: string;
   collected: boolean;
 }

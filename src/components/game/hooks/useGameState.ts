@@ -8,20 +8,23 @@ import {
   type ReactNode,
 } from "react";
 import { createElement } from "react";
-import type { GamePhase } from "@/types/game";
+import type { GamePhase, CharacterType } from "@/types/game";
 import { GAME_CONFIG } from "../config/gameConfig";
 
 interface GameState {
   phase: GamePhase;
+  character: CharacterType;
   score: number;
+  hearts: number;
   distance: number;
   speed: number;
   highScore: number;
 }
 
 type GameAction =
-  | { type: "START" }
+  | { type: "START"; character: CharacterType }
   | { type: "ADD_SCORE"; points: number }
+  | { type: "COLLECT_HEART" }
   | { type: "TICK"; delta: number }
   | { type: "GAME_OVER" }
   | { type: "RESTART" };
@@ -45,12 +48,20 @@ function gameReducer(state: GameState, action: GameAction): GameState {
       return {
         ...state,
         phase: "playing",
+        character: action.character,
         score: 0,
+        hearts: 0,
         distance: 0,
         speed: GAME_CONFIG.INITIAL_SPEED,
       };
     case "ADD_SCORE":
       return { ...state, score: state.score + action.points };
+    case "COLLECT_HEART":
+      return {
+        ...state,
+        hearts: state.hearts + 1,
+        score: state.score + GAME_CONFIG.HEART_SCORE,
+      };
     case "TICK": {
       const newDistance = state.distance + state.speed * action.delta;
       const newSpeed = Math.min(
@@ -78,6 +89,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         ...state,
         phase: "playing",
         score: 0,
+        hearts: 0,
         distance: 0,
         speed: GAME_CONFIG.INITIAL_SPEED,
       };
@@ -88,8 +100,9 @@ function gameReducer(state: GameState, action: GameAction): GameState {
 
 interface GameContextValue {
   state: GameState;
-  startGame: () => void;
+  startGame: (character?: CharacterType) => void;
   addScore: (points: number) => void;
+  collectHeart: () => void;
   tick: (delta: number) => void;
   gameOver: () => void;
   restart: () => void;
@@ -100,15 +113,21 @@ const GameContext = createContext<GameContextValue | null>(null);
 export function GameStateProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(gameReducer, {
     phase: "start" as GamePhase,
+    character: "bride" as CharacterType,
     score: 0,
+    hearts: 0,
     distance: 0,
     speed: GAME_CONFIG.INITIAL_SPEED,
     highScore: getHighScore(),
   });
 
-  const startGame = useCallback(() => dispatch({ type: "START" }), []);
+  const startGame = useCallback((character: CharacterType = "bride") => dispatch({ type: "START", character }), []);
   const addScore = useCallback(
     (points: number) => dispatch({ type: "ADD_SCORE", points }),
+    []
+  );
+  const collectHeart = useCallback(
+    () => dispatch({ type: "COLLECT_HEART" }),
     []
   );
   const tick = useCallback(
@@ -120,13 +139,14 @@ export function GameStateProvider({ children }: { children: ReactNode }) {
 
   return createElement(
     GameContext.Provider,
-    { value: { state, startGame, addScore, tick, gameOver, restart } },
+    { value: { state, startGame, addScore, collectHeart, tick, gameOver, restart } },
     children
   );
 }
 
 export function useGameState() {
   const ctx = useContext(GameContext);
-  if (!ctx) throw new Error("useGameState must be used within GameStateProvider");
+  if (!ctx)
+    throw new Error("useGameState must be used within GameStateProvider");
   return ctx;
 }

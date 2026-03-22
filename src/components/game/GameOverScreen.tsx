@@ -1,70 +1,171 @@
-"use client";
+'use client'
 
-import { useGameState } from "./hooks/useGameState";
+import { useGameState } from './hooks/useGameState'
 
 export default function GameOverScreen() {
-  const { state, restart } = useGameState();
-  const isNewHighScore = state.score >= state.highScore && state.score > 0;
+	const { state, restart } = useGameState()
+	const isNewHighScore = state.score >= state.highScore && state.score > 0
 
-  return (
-    <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-      <div className="text-center px-6 max-w-[320px] w-full">
-        <div className="bg-white/10 backdrop-blur-md rounded-3xl p-8 shadow-2xl">
-          <p className="text-pink-300 text-lg mb-1">Game Over</p>
+	return (
+		<div
+			style={{
+				position: 'absolute',
+				inset: 0,
+				display: 'flex',
+				alignItems: 'center',
+				justifyContent: 'center',
+				background: 'rgba(26, 26, 46, 0.92)',
+				fontFamily: "'Courier New', Courier, monospace",
+				zIndex: 10,
+			}}
+		>
+			<div
+				style={{
+					textAlign: 'center',
+					padding: '32px 24px',
+					maxWidth: 300,
+					width: '100%',
+				}}
+			>
+				{/* Game Over title */}
+				<div
+					style={{
+						color: '#FF69B4',
+						fontSize: 28,
+						fontWeight: 'bold',
+						letterSpacing: '0.25em',
+						marginBottom: 8,
+						textShadow: '0 0 16px rgba(255,105,180,0.4)',
+					}}
+				>
+					GAME OVER
+				</div>
 
-          {isNewHighScore && (
-            <p className="text-yellow-300 text-xs animate-bounce mb-3">
-              NEW HIGH SCORE!
-            </p>
-          )}
+				{isNewHighScore && (
+					<div
+						style={{
+							color: '#FFD700',
+							fontSize: 12,
+							letterSpacing: '0.3em',
+							marginBottom: 8,
+							animation: 'newHighBounce 0.6s ease infinite alternate',
+						}}
+					>
+						&#9733; NEW HIGH SCORE! &#9733;
+					</div>
+				)}
 
-          <div className="space-y-4 my-6">
-            <div>
-              <p className="text-white/50 text-[10px] tracking-wider">
-                FINAL SCORE
-              </p>
-              <p className="text-white font-mono text-3xl font-bold">
-                {state.score.toLocaleString()}
-              </p>
-            </div>
+				{/* Divider */}
+				<div
+					style={{
+						borderTop: '2px solid rgba(255,182,193,0.2)',
+						margin: '16px 0',
+					}}
+				/>
 
-            <div className="flex justify-center gap-6">
-              <div>
-                <p className="text-white/50 text-[10px] tracking-wider">
-                  DISTANCE
-                </p>
-                <p className="text-white font-mono text-sm">
-                  {Math.floor(state.distance)}m
-                </p>
-              </div>
-              <div>
-                <p className="text-white/50 text-[10px] tracking-wider">
-                  BEST
-                </p>
-                <p className="text-white font-mono text-sm">
-                  {state.highScore.toLocaleString()}
-                </p>
-              </div>
-            </div>
-          </div>
+				{/* Score */}
+				<div style={{ marginBottom: 20 }}>
+					<div
+						style={{
+							color: 'rgba(255,255,255,0.4)',
+							fontSize: 10,
+							letterSpacing: '0.3em',
+							marginBottom: 4,
+						}}
+					>
+						FINAL SCORE
+					</div>
+					<div
+						style={{
+							color: '#FFFFFF',
+							fontSize: 36,
+							fontWeight: 'bold',
+						}}
+					>
+						{state.score.toLocaleString()}
+					</div>
+				</div>
 
-          <div className="space-y-3">
-            <button
-              onClick={restart}
-              className="w-full bg-pink-400/80 hover:bg-pink-500 text-white py-3 rounded-full text-sm transition-colors shadow-lg"
-            >
-              Play Again
-            </button>
+				{/* Stats */}
+				<div
+					style={{
+						display: 'flex',
+						justifyContent: 'center',
+						gap: 32,
+						marginBottom: 24,
+					}}
+				>
+					<div>
+						<div
+							style={{
+								color: 'rgba(255,255,255,0.4)',
+								fontSize: 9,
+								letterSpacing: '0.2em',
+							}}
+						>
+							HEARTS
+						</div>
+						<div style={{ color: '#FF69B4', fontSize: 16 }}>&#9829; {state.hearts}</div>
+					</div>
+					<div>
+						<div
+							style={{
+								color: 'rgba(255,255,255,0.4)',
+								fontSize: 9,
+								letterSpacing: '0.2em',
+							}}
+						>
+							BEST
+						</div>
+						<div style={{ color: '#FFD700', fontSize: 16 }}>{state.highScore.toLocaleString()}</div>
+					</div>
+				</div>
 
-            <a
-              href="?"
-              className="block w-full bg-white/10 hover:bg-white/20 text-white/80 py-3 rounded-full text-sm transition-colors"
-            >
-              Back to Invitation
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+				{/* Buttons */}
+				<button
+					onClick={restart}
+					style={{
+						display: 'block',
+						width: '100%',
+						background: '#FF69B4',
+						border: 'none',
+						color: '#FFFFFF',
+						padding: '12px 0',
+						fontSize: 13,
+						fontFamily: "'Courier New', Courier, monospace",
+						letterSpacing: '0.3em',
+						cursor: 'pointer',
+						marginBottom: 12,
+						textTransform: 'uppercase',
+					}}
+				>
+					Play Again
+				</button>
+
+				<a
+					href="/mna"
+					style={{
+						display: 'block',
+						width: '100%',
+						border: '1px solid rgba(255,255,255,0.2)',
+						color: 'rgba(255,255,255,0.5)',
+						padding: '10px 0',
+						fontSize: 11,
+						textDecoration: 'none',
+						letterSpacing: '0.2em',
+						textAlign: 'center',
+					}}
+				>
+					Back to Invitation
+				</a>
+			</div>
+
+			<style>{`
+        @keyframes newHighBounce {
+          from { transform: scale(1); }
+          to { transform: scale(1.1); }
+        }
+      `}</style>
+		</div>
+	)
 }

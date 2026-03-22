@@ -6,35 +6,77 @@ export default function GameUI() {
   const { state } = useGameState();
 
   return (
-    <div className="absolute top-0 left-0 right-0 z-10 pointer-events-none">
-      <div className="flex justify-between items-start px-4 py-3 md:px-6 md:py-4">
-        {/* 점수 */}
-        <div className="bg-black/20 backdrop-blur-sm rounded-xl px-4 py-2">
-          <p className="text-white/60 text-[9px] tracking-wider">SCORE</p>
-          <p className="text-white font-mono text-lg font-bold">
-            {Math.floor(state.score + state.distance).toLocaleString()}
-          </p>
+    <div
+      style={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 10,
+        pointerEvents: "none",
+        fontFamily: "'Courier New', Courier, monospace",
+        padding: "8px 12px",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "flex-start",
+      }}
+    >
+      {/* Score */}
+      <div
+        style={{
+          background: "rgba(0,0,0,0.4)",
+          padding: "6px 10px",
+          borderRadius: 2,
+        }}
+      >
+        <div
+          style={{
+            color: "rgba(255,255,255,0.5)",
+            fontSize: 8,
+            letterSpacing: "0.2em",
+          }}
+        >
+          SCORE
         </div>
-
-        {/* 거리 */}
-        <div className="bg-black/20 backdrop-blur-sm rounded-xl px-4 py-2 text-right">
-          <p className="text-white/60 text-[9px] tracking-wider">DISTANCE</p>
-          <p className="text-white font-mono text-lg font-bold">
-            {Math.floor(state.distance)}m
-          </p>
+        <div
+          style={{
+            color: "#FFFFFF",
+            fontSize: 16,
+            fontWeight: "bold",
+          }}
+        >
+          {Math.floor(state.score + state.distance).toLocaleString()}
         </div>
       </div>
 
-      {/* 하트 수집 표시 */}
-      {state.score > 0 && (
-        <div className="flex justify-center">
-          <div className="bg-pink-500/30 backdrop-blur-sm rounded-full px-3 py-1">
-            <span className="text-pink-200 text-xs">
-              ♥ {Math.floor(state.score / 100)}
-            </span>
-          </div>
+      {/* Hearts */}
+      <div
+        style={{
+          background: "rgba(0,0,0,0.4)",
+          padding: "6px 10px",
+          borderRadius: 2,
+          textAlign: "right",
+        }}
+      >
+        <div
+          style={{
+            color: "rgba(255,255,255,0.5)",
+            fontSize: 8,
+            letterSpacing: "0.2em",
+          }}
+        >
+          HEARTS
         </div>
-      )}
+        <div
+          style={{
+            color: "#FF69B4",
+            fontSize: 16,
+            fontWeight: "bold",
+          }}
+        >
+          &#9829; {state.hearts}
+        </div>
+      </div>
     </div>
   );
 }
