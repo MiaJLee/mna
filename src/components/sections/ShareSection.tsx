@@ -61,15 +61,13 @@ export default function ShareSection({ config }: { config: WeddingConfig }) {
 			url: shareUrl,
 		}
 
-		// navigator.share 지원 여부 확인 (HTTPS 필수)
-		if (typeof navigator === 'undefined') {
-			alert('[DEBUG] navigator is undefined')
+		// 카카오톡 인앱 브라우저 → 카카오톡 공유하기로 fallback
+		if (typeof navigator !== 'undefined' && /KAKAOTALK/i.test(navigator.userAgent)) {
+			handleKakaoShare()
 			return
 		}
-		if (!navigator.share) {
-			alert(`[DEBUG] navigator.share is not available\nProtocol: ${location.protocol}\nUA: ${navigator.userAgent.slice(0, 80)}`)
-		}
-		if (navigator.share && navigator.canShare?.(shareData)) {
+
+		if (typeof navigator !== 'undefined' && navigator.share && navigator.canShare?.(shareData)) {
 			try {
 				await navigator.share(shareData)
 				return
