@@ -42,7 +42,7 @@ export default function IntroSection({ config }: { config: WeddingConfig }) {
 				{/* 줄바꿈 없음 · 항상 한 줄 가운데 · 좁은 화면에서는 좌우로 넘침 */}
 				<div className="w-full flex justify-center overflow-visible shrink-0">
 					<p
-						className="mb-15 text-rose-300 whitespace-nowrap text-center text-[3.5rem] leading-none"
+						className="mb-10 text-rose-300 whitespace-nowrap text-center text-[3.5rem] leading-none"
 						style={{ fontFamily: 'var(--font-valentine), cursive' }}
 					>
 						{config.labels.saveTheDate}
@@ -53,10 +53,10 @@ export default function IntroSection({ config }: { config: WeddingConfig }) {
 					<span className="mx-3 text-lg opacity-70">&</span>
 					<span className="opacity-70 ml-[-2px]">{config.bride.firstName}</span>
 				</h1>
-				<p className="text-m opacity-80 tracking-wider">
+				<p className="text-s opacity-80 tracking-wider">
 					{formatDotDate(dt)} {formatTime(dt, config.labels.locale)}
 				</p>
-				<p className="text-s opacity-60 mt-1">
+				<p className="text-xs opacity-60 mt-1">
 					{config.venue.name} {config.venue.hall}
 				</p>
 			</div>
