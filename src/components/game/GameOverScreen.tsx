@@ -3,7 +3,7 @@
 import { useGameState } from './hooks/useGameState'
 
 export default function GameOverScreen() {
-	const { state, restart } = useGameState()
+	const { state, restart, goSelect } = useGameState()
 	const isNewHighScore = state.score >= state.highScore && state.score > 0
 
 	return (
@@ -140,6 +140,25 @@ export default function GameOverScreen() {
 					}}
 				>
 					Play Again
+				</button>
+
+				<button
+					onClick={goSelect}
+					style={{
+						display: 'block',
+						width: '100%',
+						background: 'transparent',
+						border: '1px solid rgba(255,255,255,0.2)',
+						color: 'rgba(255,255,255,0.5)',
+						padding: '10px 0',
+						fontSize: 11,
+						fontFamily: "'Courier New', Courier, monospace",
+						letterSpacing: '0.2em',
+						cursor: 'pointer',
+						marginBottom: 12,
+					}}
+				>
+					Change Character
 				</button>
 
 				<a

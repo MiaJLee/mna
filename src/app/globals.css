@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Pretendard:wght@300;400;500;600&display=swap");
 @import "tailwindcss";
 
+
 @theme inline {
   --color-cream: #faf8f3;
   --color-ivory: #f5f0e8;

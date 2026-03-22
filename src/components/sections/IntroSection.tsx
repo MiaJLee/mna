@@ -33,17 +33,17 @@ export default function IntroSection({ config }: { config: WeddingConfig }) {
 					priority
 				/>
 			</div>
-			<div className="absolute inset-0 z-[1] bg-gradient-to-b from-black/45 via-black/15 to-transparent pointer-events-none" />
+			<div className="absolute inset-0 z-[1] bg-gradient-to-b from-black/38 via-black/12 to-transparent pointer-events-none" />
 			<div className="absolute inset-0 z-[1] pointer-events-none">
 				<Sparkles />
 			</div>
 
-			<div className="absolute inset-0 z-10 flex flex-col items-center justify-start pt-20 px-6 text-white lg:justify-start lg:pt-24 overflow-visible">
+			<div className="absolute inset-0 z-10 flex flex-col items-center justify-start pt-28 px-6 text-white lg:justify-start lg:pt-24 overflow-visible">
 				{/* 줄바꿈 없음 · 항상 한 줄 가운데 · 좁은 화면에서는 좌우로 넘침 */}
 				<div className="w-full flex justify-center overflow-visible shrink-0">
 					<p
-						className="mb-2 text-rose-300 whitespace-nowrap text-center text-[4rem] leading-none"
-						style={{ fontFamily: "'Meow Script', cursive" }}
+						className="mb-15 text-rose-300 whitespace-nowrap text-center text-[3.5rem] leading-none"
+						style={{ fontFamily: 'var(--font-valentine), cursive' }}
 					>
 						{config.labels.saveTheDate}
 					</p>

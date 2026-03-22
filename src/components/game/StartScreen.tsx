@@ -105,7 +105,7 @@ export default function StartScreen() {
             <rect x="2" y="36" width="28" height="8" fill="#FFB6C1" />
           </svg>
           <span style={{ color: selected === "bride" ? "#FF69B4" : "rgba(255,255,255,0.5)", fontSize: 11 }}>
-            이지형
+            지형
           </span>
         </button>
 
@@ -139,7 +139,7 @@ export default function StartScreen() {
             <rect x="18" y="40" width="6" height="6" fill="#1a1a1a" />
           </svg>
           <span style={{ color: selected === "groom" ? "#87CEEB" : "rgba(255,255,255,0.5)", fontSize: 11 }}>
-            박종혁
+            종혁
           </span>
         </button>
       </div>

@@ -27,7 +27,8 @@ type GameAction =
   | { type: "COLLECT_HEART" }
   | { type: "TICK"; delta: number }
   | { type: "GAME_OVER" }
-  | { type: "RESTART" };
+  | { type: "RESTART" }
+  | { type: "GO_SELECT" };
 
 function getHighScore(): number {
   if (typeof window === "undefined") return 0;
@@ -93,6 +94,15 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         distance: 0,
         speed: GAME_CONFIG.INITIAL_SPEED,
       };
+    case "GO_SELECT":
+      return {
+        ...state,
+        phase: "start",
+        score: 0,
+        hearts: 0,
+        distance: 0,
+        speed: GAME_CONFIG.INITIAL_SPEED,
+      };
     default:
       return state;
   }
@@ -106,6 +116,7 @@ interface GameContextValue {
   tick: (delta: number) => void;
   gameOver: () => void;
   restart: () => void;
+  goSelect: () => void;
 }
 
 const GameContext = createContext<GameContextValue | null>(null);
@@ -136,10 +147,11 @@ export function GameStateProvider({ children }: { children: ReactNode }) {
   );
   const gameOver = useCallback(() => dispatch({ type: "GAME_OVER" }), []);
   const restart = useCallback(() => dispatch({ type: "RESTART" }), []);
+  const goSelect = useCallback(() => dispatch({ type: "GO_SELECT" }), []);
 
   return createElement(
     GameContext.Provider,
-    { value: { state, startGame, addScore, collectHeart, tick, gameOver, restart } },
+    { value: { state, startGame, addScore, collectHeart, tick, gameOver, restart, goSelect } },
     children
   );
 }

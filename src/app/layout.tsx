@@ -1,8 +1,15 @@
 import type { Metadata, Viewport } from 'next'
 import Script from 'next/script'
+import localFont from 'next/font/local'
 import { weddingConfig } from '@/config/wedding'
 import { parseWeddingDate, formatFull } from '@/lib/weddingDate'
 import './globals.css'
+
+const amsterdam = localFont({
+	src: '../../public/font/Amsterdam Handwriting.ttf',
+	variable: '--font-valentine',
+	display: 'swap',
+})
 
 const weddingDateStr = formatFull(parseWeddingDate(weddingConfig.datetime), 'ko')
 
@@ -31,7 +38,7 @@ export default function RootLayout({
 	children: React.ReactNode
 }>) {
 	return (
-		<html lang="ko">
+		<html lang="ko" className={amsterdam.variable}>
 			<head>
 				<link rel="preconnect" href="https://fonts.googleapis.com" />
 				<link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
