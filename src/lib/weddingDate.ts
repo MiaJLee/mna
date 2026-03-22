@@ -40,6 +40,15 @@ export function formatFull(dt: DateTime, locale: Locale = "ko"): string {
   return `${dt.year}년 ${dt.month}월 ${dt.day}일 ${dayName}요일 ${formatTime(dt, "ko")}`;
 }
 
+/** 요일 없이 짧은 형태 "2026년 10월 31일 오전 11시" / "October 31, 2026 at 11:00 AM" */
+export function formatShort(dt: DateTime, locale: Locale = "ko"): string {
+  if (locale === "en") {
+    const monthName = dt.toFormat("MMMM");
+    return `${monthName} ${dt.day}, ${dt.year} at ${formatTime(dt, "en")}`;
+  }
+  return `${dt.year}년 ${dt.month}월 ${dt.day}일 ${formatTime(dt, "ko")}`;
+}
+
 /** 캘린더 헤더 "2026년 10월" / "October 2026" */
 export function formatCalendarHeader(dt: DateTime, locale: Locale = "ko"): string {
   if (locale === "en") {

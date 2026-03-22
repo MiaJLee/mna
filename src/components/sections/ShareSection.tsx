@@ -5,7 +5,7 @@ import type { WeddingConfig } from '@/types'
 import AnimateOnScroll from '@/components/ui/AnimateOnScroll'
 import Toast from '@/components/ui/Toast'
 import { initKakao, shareKakao } from '@/lib/kakao'
-import { parseWeddingDate, formatFull } from '@/lib/weddingDate'
+import { parseWeddingDate, formatFull, formatShort } from '@/lib/weddingDate'
 
 export default function ShareSection({ config }: { config: WeddingConfig }) {
 	const [showToast, setShowToast] = useState(false)
@@ -18,21 +18,29 @@ export default function ShareSection({ config }: { config: WeddingConfig }) {
 
 	const handleKakaoShare = () => {
 		shareKakao({
-			title: `${config.groom.name} ♥ ${config.bride.name} ${config.labels.shareMarrying}`,
+			title: config.labels.locale === 'en'
+				? `Save the Date\n${config.bride.firstName} ♥ ${config.groom.firstName}`
+				: `${config.bride.firstName} ♥ ${config.groom.firstName} ${config.labels.shareMarrying}`,
 			description:
-				formatFull(parseWeddingDate(config.datetime), config.labels.locale) + ' | ' + config.venue.name,
+				formatShort(parseWeddingDate(config.datetime), config.labels.locale) +
+				'\n' +
+				config.venue.name +
+				' ' +
+				config.venue.hall,
 			imageUrl: config.siteUrl + config.ogImage,
-			webUrl: config.siteUrl,
+			webUrl: config.labels.locale === 'en' ? config.siteUrl + '?lang=en' : config.siteUrl,
 			buttonLabel: config.labels.locale === 'en' ? 'View Invitation' : '모바일 청첩장 보기',
 		})
 	}
 
+	const shareUrl = config.labels.locale === 'en' ? config.siteUrl + '?lang=en' : config.siteUrl
+
 	const handleCopyUrl = useCallback(async () => {
 		try {
-			await navigator.clipboard.writeText(config.siteUrl)
+			await navigator.clipboard.writeText(shareUrl)
 		} catch {
 			const textarea = document.createElement('textarea')
-			textarea.value = config.siteUrl
+			textarea.value = shareUrl
 			textarea.style.position = 'fixed'
 			textarea.style.opacity = '0'
 			document.body.appendChild(textarea)
@@ -41,7 +49,7 @@ export default function ShareSection({ config }: { config: WeddingConfig }) {
 			document.body.removeChild(textarea)
 		}
 		setShowToast(true)
-	}, [config.siteUrl])
+	}, [shareUrl])
 
 	const handleNativeShare = async () => {
 		if (navigator.share) {
@@ -52,7 +60,7 @@ export default function ShareSection({ config }: { config: WeddingConfig }) {
 						formatFull(parseWeddingDate(config.datetime), config.labels.locale) +
 						' | ' +
 						config.venue.name,
-					url: config.siteUrl,
+					url: shareUrl,
 				})
 			} catch {
 				// User cancelled sharing

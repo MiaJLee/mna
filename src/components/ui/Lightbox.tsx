@@ -19,7 +19,7 @@ export default function Lightbox({
 }: LightboxProps) {
   const [emblaRef, emblaApi] = useEmblaCarousel({
     startIndex: currentIndex,
-    loop: false,
+    loop: true,
     dragFree: false,
   });
 
