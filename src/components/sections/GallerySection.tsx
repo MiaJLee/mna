@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import ImageWithFallback from "@/components/ui/ImageWithFallback";
 import type { WeddingConfig } from "@/types";
 import AnimateOnScroll from "@/components/ui/AnimateOnScroll";
@@ -19,10 +19,13 @@ export default function GallerySection({
   config: WeddingConfig;
 }) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-  const images = config.gallery.slice(0, 12);
+  const images = useMemo(() => config.gallery.slice(0, 12), [config.gallery]);
+  const preloaded = useRef(false);
 
-  // 페이지 진입 후 원본 이미지 백그라운드 프리로드
+  // 페이지 진입 후 원본 이미지 백그라운드 프리로드 (1회만)
   useEffect(() => {
+    if (preloaded.current) return;
+    preloaded.current = true;
     images.forEach((img) => {
       const image = new Image();
       image.src = withBasePath(img.src);
@@ -40,10 +43,12 @@ export default function GallerySection({
       <div className="grid grid-cols-3 gap-2" onContextMenu={(e) => e.preventDefault()}>
         {images.map((img, idx) => (
           <AnimateOnScroll key={idx} delay={idx * 50}>
-            <button
-              type="button"
-              onClick={(e) => { e.preventDefault(); setSelectedIndex(idx); }}
-              className="relative aspect-square w-full overflow-hidden rounded-lg"
+            <div
+              role="button"
+              tabIndex={0}
+              onClick={() => setSelectedIndex(idx)}
+              onTouchEnd={(e) => { e.preventDefault(); setSelectedIndex(idx); }}
+              className="relative aspect-square w-full overflow-hidden rounded-lg cursor-pointer"
             >
               <ImageWithFallback
                 src={withBasePath(toThumbSrc(img.src))}
@@ -52,7 +57,7 @@ export default function GallerySection({
                 className="object-cover hover:scale-105 transition-transform duration-300"
                 sizes="143px"
               />
-            </button>
+            </div>
           </AnimateOnScroll>
         ))}
       </div>
