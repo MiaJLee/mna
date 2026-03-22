@@ -22,8 +22,8 @@ export const labelsKo: Labels = {
 	relationshipDaysLabel: (days) => `연애 기간 ${days.toLocaleString()}일`,
 
 	countdownLabels: { days: 'Days', hours: 'Hours', min: 'Min', sec: 'Sec' },
-	googleCalendar: '📅 Google',
-	appleCalendar: '📅 Apple',
+	googleCalendar: '📅 Google 캘린더에 추가하기',
+	appleCalendar: '📅 Apple 캘린더에 추가하기',
 
 	galleryTitle: '우리의 순간',
 

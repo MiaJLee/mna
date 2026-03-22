@@ -4,7 +4,7 @@ import { useMemo, useState, useEffect } from "react";
 import type { WeddingConfig } from "@/types";
 import AnimateOnScroll from "@/components/ui/AnimateOnScroll";
 import { parseWeddingDate, formatFull, formatCalendarHeader } from "@/lib/weddingDate";
-import { generateIcs, getGoogleCalendarUrl } from "@/lib/generateIcs";
+import { getGoogleCalendarUrl } from "@/lib/generateIcs";
 
 export default function CalendarSection({
   config,
@@ -54,9 +54,6 @@ export default function CalendarSection({
     [config.datetime, config.venue.name, config.venue.address]
   );
 
-  const handleAppleCalendar = () => {
-    generateIcs(config.datetime, config.venue.name, config.venue.address);
-  };
 
   return (
     <section id="calendar" className="w-full max-w-[430px] mx-auto px-6 py-12">
@@ -125,22 +122,14 @@ export default function CalendarSection({
             </div>
           </div>
 
-          <div className="mt-5 flex gap-2">
-            <a
-              href={googleCalUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-1 py-3 bg-sage-100 text-sage-700 text-sm rounded-xl hover:bg-sage-200 transition-colors text-center"
-            >
-              {config.labels.googleCalendar}
-            </a>
-            <button
-              onClick={handleAppleCalendar}
-              className="flex-1 py-3 bg-sage-100 text-sage-700 text-sm rounded-xl hover:bg-sage-200 transition-colors"
-            >
-              {config.labels.appleCalendar}
-            </button>
-          </div>
+          <a
+            href={googleCalUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-5 block w-full py-3 bg-sage-100 text-sage-700 text-sm rounded-xl hover:bg-sage-200 transition-colors text-center"
+          >
+            {config.labels.googleCalendar}
+          </a>
         </div>
       </AnimateOnScroll>
     </section>

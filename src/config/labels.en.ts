@@ -22,8 +22,8 @@ export const labelsEn: Labels = {
 	relationshipDaysLabel: (days) => `${days.toLocaleString()} days together`,
 
 	countdownLabels: { days: 'Days', hours: 'Hours', min: 'Min', sec: 'Sec' },
-	googleCalendar: '📅 Google',
-	appleCalendar: '📅 Apple',
+	googleCalendar: '📅 add to Google Calendar',
+	appleCalendar: '📅 add to Apple Calendar',
 
 	galleryTitle: 'Our Moments',
 

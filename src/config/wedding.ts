@@ -10,7 +10,7 @@ export const weddingConfig: WeddingConfig = {
 		lastName: '박',
 		firstName: '종혁',
 		fatherName: '박상배',
-		motherName: '김미영',
+		motherName: '장미영',
 		relation: '의 장남',
 		childhoodPhoto: '/images/groom-baby.jpeg',
 		birthInfo: '1996년 2월 서울 출생',
@@ -155,7 +155,7 @@ export const weddingConfig: WeddingConfig = {
 					bank: '국민은행',
 					accountNumber: '123-456-789012',
 					holder: '박종혁',
-					kakaoPayUrl: 'https://qr.kakaopay.com/PLACEHOLDER',
+					kakaoPayUrl: 'https://link.kakaopay.com/__/8ZccKtD',
 				},
 				{
 					role: '신랑 아버지',
@@ -167,7 +167,7 @@ export const weddingConfig: WeddingConfig = {
 					role: '신랑 어머니',
 					bank: '우리은행',
 					accountNumber: '1002-123-456789',
-					holder: '김미영',
+					holder: '장미영',
 				},
 			],
 		},
@@ -180,7 +180,7 @@ export const weddingConfig: WeddingConfig = {
 					bank: '카카오뱅크',
 					accountNumber: '3333-12-3456789',
 					holder: '이지형',
-					kakaoPayUrl: 'https://qr.kakaopay.com/PLACEHOLDER',
+					kakaoPayUrl: 'https://link.kakaopay.com/__/tui-OtJ',
 				},
 				{
 					role: '신부 아버지',
@@ -201,8 +201,8 @@ export const weddingConfig: WeddingConfig = {
 	// ── 카카오 API ──────────────────────────────────
 	kakaoJsKey: 'PLACEHOLDER_KAKAO_JS_KEY',
 
-	// ── RSVP (Google Apps Script) ──────────────────
-	googleScriptUrl: 'PLACEHOLDER_GOOGLE_SCRIPT_URL',
+	// ── RSVP (Google Forms) ──────────────────
+	googleScriptUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSdBkOa9oxfooMzLHIOll-bRI5mIzFYHYiDob8WYTIQhg7ICLg/formResponse',
 
 	// ── 공유 설정 ──────────────────────────────────
 	ogImage: '/images/main-og.jpg',

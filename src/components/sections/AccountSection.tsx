@@ -44,12 +44,8 @@ export default function AccountSection({
                       <p className="text-xs text-brown">{account.holder}</p>
                     </div>
                     <div className="flex gap-1.5 shrink-0 ml-3">
-                      <CopyButton
-                        text={`${account.bank} ${account.accountNumber}`}
-                        label={config.labels.accountCopy}
-                      />
                       {account.kakaoPayUrl &&
-                        account.kakaoPayUrl !== "https://qr.kakaopay.com/PLACEHOLDER" && (
+                        !account.kakaoPayUrl.includes("PLACEHOLDER") && (
                           <a
                             href={account.kakaoPayUrl}
                             target="_blank"
@@ -59,6 +55,10 @@ export default function AccountSection({
                             {config.labels.accountSend}
                           </a>
                         )}
+                      <CopyButton
+                        text={`${account.bank} ${account.accountNumber}`}
+                        label={config.labels.accountCopy}
+                      />
                     </div>
                   </div>
                 ))}

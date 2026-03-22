@@ -6,18 +6,16 @@ export interface RsvpFormData {
 
 export async function submitRsvp(
   data: RsvpFormData,
-  scriptUrl: string
+  formUrl: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    // application/x-www-form-urlencoded → Google Apps Script doPost(e) e.parameter에서 수신
     const body = new URLSearchParams({
-      name: data.name,
-      phone: data.phone,
-      attendance: data.attendance === "yes" ? "참석" : "불참",
-      timestamp: new Date().toLocaleString("ko-KR"),
+      "entry.551156135": data.name,
+      "entry.468161600": data.phone,
+      "entry.1802314438": data.attendance === "yes" ? "참석" : "불참",
     });
 
-    await fetch(scriptUrl, {
+    await fetch(formUrl, {
       method: "POST",
       mode: "no-cors",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
