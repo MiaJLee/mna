@@ -37,7 +37,7 @@ export default function GallerySection({
         </h2>
       </AnimateOnScroll>
 
-      <div className="grid grid-cols-3 gap-2">
+      <div className="grid grid-cols-3 gap-2" onContextMenu={(e) => e.preventDefault()}>
         {images.map((img, idx) => (
           <AnimateOnScroll key={idx} delay={idx * 50}>
             <button
