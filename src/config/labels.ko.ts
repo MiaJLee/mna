@@ -17,10 +17,6 @@ export const labelsKo: Labels = {
 	aboutUsTitle: 'ABOUT US',
 	aboutUsSubtitle: '하나로 이어진 두개의 우주',
 
-	timelineTitle: 'OUR TIMELINE',
-	timelineSubtitle: '서로에게 참 소중하고 감사한 존재',
-	relationshipDaysLabel: (days) => `연애 기간 ${days.toLocaleString()}일`,
-
 	countdownLabels: { days: 'Days', hours: 'Hours', min: 'Min', sec: 'Sec' },
 	googleCalendar: '📅 Google 캘린더에 추가하기',
 	appleCalendar: '📅 Apple 캘린더에 추가하기',
@@ -61,7 +57,6 @@ export const labelsKo: Labels = {
 		greeting: '인사말',
 		weddingInfo: '예식안내',
 		aboutUs: '소개',
-		timeline: '타임라인',
 		calendar: '캘린더',
 		gallery: '갤러리',
 		transport: '오시는길',

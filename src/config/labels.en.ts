@@ -17,10 +17,6 @@ export const labelsEn: Labels = {
 	aboutUsTitle: 'ABOUT US',
 	aboutUsSubtitle: 'Two worlds, one love',
 
-	timelineTitle: 'OUR TIMELINE',
-	timelineSubtitle: 'Grateful for every moment together',
-	relationshipDaysLabel: (days) => `${days.toLocaleString()} days together`,
-
 	countdownLabels: { days: 'Days', hours: 'Hours', min: 'Min', sec: 'Sec' },
 	googleCalendar: '📅 add to Google Calendar',
 	appleCalendar: '📅 add to Apple Calendar',
@@ -61,7 +57,6 @@ export const labelsEn: Labels = {
 		greeting: 'Greeting',
 		weddingInfo: 'Info',
 		aboutUs: 'About',
-		timeline: 'Timeline',
 		calendar: 'Calendar',
 		gallery: 'Gallery',
 		transport: 'Directions',

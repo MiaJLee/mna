@@ -46,47 +46,23 @@ function ContentSections({ config }: { config: WeddingConfig }) {
   );
 }
 
-function collectImageUrls(config: WeddingConfig): string[] {
-  const urls: string[] = [];
-  urls.push(withBasePath("/images/main.jpg"));
-  if (config.groom.childhoodPhoto) urls.push(withBasePath(config.groom.childhoodPhoto));
-  if (config.bride.childhoodPhoto) urls.push(withBasePath(config.bride.childhoodPhoto));
-  for (const item of config.timeline) {
-    if (item.image) urls.push(withBasePath(item.image));
-  }
-  for (const img of config.gallery) {
-    // 썸네일만 프리로드 (원본은 라이트박스에서 lazy load)
-    const lastSlash = img.src.lastIndexOf("/");
-    const thumbSrc = img.src.slice(0, lastSlash) + "/thumbs" + img.src.slice(lastSlash);
-    urls.push(withBasePath(thumbSrc));
-  }
-  return urls;
-}
-
-function preloadImages(urls: string[]): Promise<void> {
-  return Promise.all(
-    urls.map(
-      (url) =>
-        new Promise<void>((resolve) => {
-          const img = new Image();
-          img.onload = () => resolve();
-          img.onerror = () => resolve();
-          img.src = url;
-        })
-    )
-  ).then(() => {});
-}
-
-function waitForFonts(): Promise<void> {
-  if (typeof document === "undefined") return Promise.resolve();
-  return document.fonts.ready.then(() => {});
+function preloadImage(url: string): Promise<void> {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => resolve();
+    img.onerror = () => resolve();
+    img.src = url;
+  });
 }
 
 export default function WeddingContent({ config }: { config: WeddingConfig }) {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    Promise.all([preloadImages(collectImageUrls(config)), waitForFonts()]).then(() => setReady(true));
+    // 메인 이미지 + 폰트만 대기 (모바일 메모리 절약)
+    const mainImage = preloadImage(withBasePath("/images/gallery/web/gallery_01.webp"));
+    const fonts = typeof document !== "undefined" ? document.fonts.ready : Promise.resolve();
+    Promise.all([mainImage, fonts]).then(() => setReady(true));
   }, [config]);
 
   const hiddenSections = [

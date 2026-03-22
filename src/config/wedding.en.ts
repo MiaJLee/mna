@@ -51,33 +51,7 @@ as we begin this journey together.`,
 	flowerDeclineMessage:
 		'Your warm wishes are the greatest gift.\nIn lieu of flowers, please share your heartfelt congratulations.',
 
-	timeline: [
-		{
-			date: 'Feb 2023, Bojeong-dong',
-			title: '☕ Our First Meeting',
-			description: 'We met at a café\nwe both loved — it was love at first sight',
-			image: '/images/timeline/first-meet.jpg',
-		},
-		{
-			date: '',
-			title: '💕 3.5 Years of Happiness',
-			description: 'Seasons of laughter\nand endless conversations',
-			image: '/images/timeline/dating.jpg',
-			useRelationshipDays: true,
-		},
-		{
-			date: 'Where we first dated',
-			title: '💍 The Proposal',
-			description: 'Long in the making,\nshort in the answer — "YES!"',
-			image: '/images/timeline/propose.jpg',
-		},
-		{
-			date: 'Oct 31, 2026, Seoul',
-			title: '👰🤵 Wedding Day',
-			description: 'No longer two,\nbut one — the beginning of forever',
-			image: '/images/timeline/wedding.jpg',
-		},
-	],
+
 
 	transport: [
 		{

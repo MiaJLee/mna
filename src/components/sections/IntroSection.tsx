@@ -24,7 +24,7 @@ export default function IntroSection({ config }: { config: WeddingConfig }) {
 			className="relative h-dvh w-full overflow-hidden lg:h-full lg:min-h-screen"
 		>
 			<ImageWithFallback
-				src={withBasePath('/images/main.jpg')}
+				src={withBasePath('/images/gallery/web/gallery_01.webp')}
 				alt="웨딩 사진"
 				fill
 				className="object-cover scale-120 brightness-110"

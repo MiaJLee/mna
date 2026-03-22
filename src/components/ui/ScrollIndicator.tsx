@@ -14,7 +14,7 @@ export default function ScrollIndicator({
   hiddenSections = [],
 }: ScrollIndicatorProps) {
   const sections = useMemo(() => {
-    const nav = labels ?? { greeting: "인사말", weddingInfo: "예식안내", aboutUs: "소개", timeline: "타임라인", calendar: "캘린더", gallery: "갤러리", transport: "오시는길", account: "축의금", rsvp: "참석여부", share: "공유" };
+    const nav = labels ?? { greeting: "인사말", weddingInfo: "예식안내", aboutUs: "소개", calendar: "캘린더", gallery: "갤러리", transport: "오시는길", account: "축의금", rsvp: "참석여부", share: "공유" };
     const all = [
       { id: "greeting", label: nav.greeting },
       { id: "wedding-info", label: nav.weddingInfo },

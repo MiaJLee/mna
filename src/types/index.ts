@@ -48,15 +48,6 @@ export interface NavigationLink {
 	url: string
 }
 
-export interface TimelineEvent {
-	date: string
-	title: string
-	description: string
-	image?: string
-	/** true면 date 대신 연애기간 N일(시작일 기준) 표시 */
-	useRelationshipDays?: boolean
-}
-
 export type Locale = 'ko' | 'en'
 
 export interface Labels {
@@ -79,11 +70,6 @@ export interface Labels {
 	// 소개
 	aboutUsTitle: string
 	aboutUsSubtitle: string
-
-	// 타임라인
-	timelineTitle: string
-	timelineSubtitle: string
-	relationshipDaysLabel: (days: number) => string
 
 	// 캘린더
 	countdownLabels: { days: string; hours: string; min: string; sec: string }
@@ -132,7 +118,6 @@ export interface Labels {
 		greeting: string
 		weddingInfo: string
 		aboutUs: string
-		timeline: string
 		calendar: string
 		gallery: string
 		transport: string
@@ -155,7 +140,6 @@ export interface WeddingConfig {
 	greeting: string
 	flowerDeclineMessage: string
 
-	timeline: TimelineEvent[]
 	gallery: GalleryImage[]
 	transport: TransportInfo[]
 	accountGroups: AccountGroup[]

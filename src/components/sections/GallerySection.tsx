@@ -1,16 +1,16 @@
 "use client";
 
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import ImageWithFallback from "@/components/ui/ImageWithFallback";
 import type { WeddingConfig } from "@/types";
 import AnimateOnScroll from "@/components/ui/AnimateOnScroll";
 import Lightbox from "@/components/ui/Lightbox";
 import { withBasePath } from "@/config/basePath";
 
-/** /images/gallery/photo.jpg → /images/gallery/thumbs/photo.jpg */
+/** /images/gallery/photo.jpg → /images/gallery/thumbs/photo.webp */
 function toThumbSrc(src: string): string {
   const lastSlash = src.lastIndexOf("/");
-  return src.slice(0, lastSlash) + "/thumbs" + src.slice(lastSlash);
+  return (src.slice(0, lastSlash) + "/thumbs" + src.slice(lastSlash)).replace(/\.(jpg|jpeg|png)$/i, ".webp");
 }
 
 export default function GallerySection({
@@ -20,17 +20,10 @@ export default function GallerySection({
 }) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const images = useMemo(() => config.gallery.slice(0, 12), [config.gallery]);
-  const preloaded = useRef(false);
 
-  // 페이지 진입 후 원본 이미지 백그라운드 프리로드 (1회만)
-  useEffect(() => {
-    if (preloaded.current) return;
-    preloaded.current = true;
-    images.forEach((img) => {
-      const image = new Image();
-      image.src = withBasePath(img.src);
-    });
-  }, [images]);
+  const handleSelect = useCallback((idx: number) => {
+    setSelectedIndex(idx);
+  }, []);
 
   return (
     <section id="gallery" className="w-full max-w-[430px] mx-auto px-6 py-12">
@@ -44,11 +37,8 @@ export default function GallerySection({
         {images.map((img, idx) => (
           <AnimateOnScroll key={idx} delay={idx * 50}>
             <div
-              role="button"
-              tabIndex={0}
-              onClick={() => setSelectedIndex(idx)}
-              onTouchEnd={(e) => { e.preventDefault(); setSelectedIndex(idx); }}
               className="relative aspect-square w-full overflow-hidden rounded-lg cursor-pointer"
+              onClick={() => handleSelect(idx)}
             >
               <ImageWithFallback
                 src={withBasePath(toThumbSrc(img.src))}
@@ -64,7 +54,6 @@ export default function GallerySection({
 
       {selectedIndex !== null && (
         <Lightbox
-          key={selectedIndex}
           images={images}
           currentIndex={selectedIndex}
           onClose={() => setSelectedIndex(null)}
