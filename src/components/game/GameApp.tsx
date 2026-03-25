@@ -1,9 +1,14 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { useMemo } from "react";
+import { useSearchParams } from "next/navigation";
+import type { Locale } from "@/types";
 import StartScreen from "./StartScreen";
 import GameOverScreen from "./GameOverScreen";
 import GameUI from "./GameUI";
+import { GameCopyProvider } from "./GameCopyContext";
+import { buildGameCopy } from "./gameCopy";
 import { GameStateProvider, useGameState } from "./hooks/useGameState";
 
 const Game2DCanvas = dynamic(() => import("./Game2DCanvas"), { ssr: false });
@@ -64,9 +69,15 @@ function GameAppInner() {
 }
 
 export default function GameApp() {
+  const searchParams = useSearchParams();
+  const locale: Locale = searchParams.get("lang") === "en" ? "en" : "ko";
+  const copy = useMemo(() => buildGameCopy(locale), [locale]);
+
   return (
-    <GameStateProvider>
-      <GameAppInner />
-    </GameStateProvider>
+    <GameCopyProvider value={copy}>
+      <GameStateProvider>
+        <GameAppInner />
+      </GameStateProvider>
+    </GameCopyProvider>
   );
 }

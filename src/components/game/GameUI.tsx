@@ -1,9 +1,11 @@
 "use client";
 
 import { useGameState } from "./hooks/useGameState";
+import { useGameCopy } from "./GameCopyContext";
 
 export default function GameUI() {
   const { state } = useGameState();
+  const copy = useGameCopy();
 
   return (
     <div
@@ -36,7 +38,7 @@ export default function GameUI() {
             letterSpacing: "0.2em",
           }}
         >
-          SCORE
+          {copy.hudScore}
         </div>
         <div
           style={{
@@ -65,7 +67,7 @@ export default function GameUI() {
             letterSpacing: "0.2em",
           }}
         >
-          HEARTS
+          {copy.hudHearts}
         </div>
         <div
           style={{

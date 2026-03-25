@@ -17,6 +17,7 @@ import ShareSection from "@/components/sections/ShareSection";
 import SectionDivider from "@/components/ui/SectionDivider";
 import ScrollIndicator from "@/components/ui/ScrollIndicator";
 import ScrollToTopButton from "@/components/ui/ScrollToTopButton";
+import HiddenGameHeartEasterEggs from "@/components/ui/HiddenGameHeartEasterEggs";
 
 function ContentSections({ config }: { config: WeddingConfig }) {
   return (
@@ -83,8 +84,11 @@ export default function WeddingContent({ config }: { config: WeddingConfig }) {
       {/* ── 모바일 레이아웃 (lg 미만): 단일 컬럼 ── */}
       <main className="lg:hidden max-w-[430px] mx-auto bg-cream min-h-screen">
         <IntroSection config={config} />
-        <ScrollIndicator labels={config.labels.nav} hiddenSections={hiddenSections} />
-        <ContentSections config={config} />
+        <div className="relative">
+          <ScrollIndicator labels={config.labels.nav} hiddenSections={hiddenSections} />
+          <ContentSections config={config} />
+          <HiddenGameHeartEasterEggs locale={config.labels.locale} />
+        </div>
         <ScrollToTopButton />
       </main>
 
@@ -100,9 +104,12 @@ export default function WeddingContent({ config }: { config: WeddingConfig }) {
           id="scroll-content"
           className="w-2/3 bg-cream overflow-y-auto h-screen"
         >
-          <ScrollIndicator scrollContainerId="scroll-content" labels={config.labels.nav} hiddenSections={hiddenSections} />
-          <div className="max-w-[520px] mx-auto">
-            <ContentSections config={config} />
+          <div className="relative">
+            <ScrollIndicator scrollContainerId="scroll-content" labels={config.labels.nav} hiddenSections={hiddenSections} />
+            <div className="max-w-[520px] mx-auto">
+              <ContentSections config={config} />
+            </div>
+            <HiddenGameHeartEasterEggs locale={config.labels.locale} />
           </div>
           <ScrollToTopButton scrollContainerId="scroll-content" />
         </div>

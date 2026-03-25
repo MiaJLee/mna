@@ -1,9 +1,11 @@
 'use client'
 
 import { useGameState } from './hooks/useGameState'
+import { useGameCopy } from './GameCopyContext'
 
 export default function GameOverScreen() {
 	const { state, restart, goSelect } = useGameState()
+	const copy = useGameCopy()
 	const isNewHighScore = state.score >= state.highScore && state.score > 0
 
 	return (
@@ -38,7 +40,7 @@ export default function GameOverScreen() {
 						textShadow: '0 0 16px rgba(255,105,180,0.4)',
 					}}
 				>
-					GAME OVER
+					{copy.gameOver}
 				</div>
 
 				{isNewHighScore && (
@@ -51,7 +53,7 @@ export default function GameOverScreen() {
 							animation: 'newHighBounce 0.6s ease infinite alternate',
 						}}
 					>
-						&#9733; NEW HIGH SCORE! &#9733;
+						{copy.newHighScore}
 					</div>
 				)}
 
@@ -73,7 +75,7 @@ export default function GameOverScreen() {
 							marginBottom: 4,
 						}}
 					>
-						FINAL SCORE
+						{copy.finalScore}
 					</div>
 					<div
 						style={{
@@ -103,7 +105,7 @@ export default function GameOverScreen() {
 								letterSpacing: '0.2em',
 							}}
 						>
-							HEARTS
+							{copy.statHearts}
 						</div>
 						<div style={{ color: '#FF69B4', fontSize: 16 }}>&#9829; {state.hearts}</div>
 					</div>
@@ -115,7 +117,7 @@ export default function GameOverScreen() {
 								letterSpacing: '0.2em',
 							}}
 						>
-							BEST
+							{copy.statBest}
 						</div>
 						<div style={{ color: '#FFD700', fontSize: 16 }}>{state.highScore.toLocaleString()}</div>
 					</div>
@@ -139,7 +141,7 @@ export default function GameOverScreen() {
 						textTransform: 'uppercase',
 					}}
 				>
-					Play Again
+					{copy.playAgain}
 				</button>
 
 				<button
@@ -158,11 +160,11 @@ export default function GameOverScreen() {
 						marginBottom: 12,
 					}}
 				>
-					Change Character
+					{copy.changeCharacter}
 				</button>
 
 				<a
-					href="/mna"
+					href={copy.invitationHref}
 					style={{
 						display: 'block',
 						width: '100%',
@@ -175,7 +177,7 @@ export default function GameOverScreen() {
 						textAlign: 'center',
 					}}
 				>
-					Back to Invitation
+					{copy.backToInvitation}
 				</a>
 			</div>
 

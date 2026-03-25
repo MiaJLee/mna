@@ -2,10 +2,12 @@
 
 import { useState } from "react";
 import { useGameState } from "./hooks/useGameState";
+import { useGameCopy } from "./GameCopyContext";
 import type { CharacterType } from "@/types/game";
 
 export default function StartScreen() {
   const { startGame } = useGameState();
+  const copy = useGameCopy();
   const [selected, setSelected] = useState<CharacterType>("bride");
 
   return (
@@ -38,7 +40,7 @@ export default function StartScreen() {
         ))}
       </div>
 
-      {/* Title */}
+      {/* 서브: 픽셀 에디션 · 메인: 웨딩 러너 */}
       <div
         style={{
           color: "#FFB6C1",
@@ -48,7 +50,7 @@ export default function StartScreen() {
           textTransform: "uppercase",
         }}
       >
-        Wedding Runner
+        {copy.subtitleLine}
       </div>
       <h1
         style={{
@@ -60,7 +62,7 @@ export default function StartScreen() {
           textShadow: "0 0 12px rgba(255,182,193,0.5)",
         }}
       >
-        PIXEL EDITION
+        {copy.titleLine}
       </h1>
 
       {/* Character select */}
@@ -73,7 +75,7 @@ export default function StartScreen() {
           textTransform: "uppercase",
         }}
       >
-        Select Character
+        {copy.selectCharacter}
       </div>
 
       <div style={{ display: "flex", gap: 16, marginBottom: 28 }}>
@@ -105,7 +107,7 @@ export default function StartScreen() {
             <rect x="2" y="36" width="28" height="8" fill="#FFB6C1" />
           </svg>
           <span style={{ color: selected === "bride" ? "#FF69B4" : "rgba(255,255,255,0.5)", fontSize: 11 }}>
-            지형
+            {copy.brideName}
           </span>
         </button>
 
@@ -139,7 +141,7 @@ export default function StartScreen() {
             <rect x="18" y="40" width="6" height="6" fill="#1a1a1a" />
           </svg>
           <span style={{ color: selected === "groom" ? "#87CEEB" : "rgba(255,255,255,0.5)", fontSize: 11 }}>
-            종혁
+            {copy.groomName}
           </span>
         </button>
       </div>
@@ -157,9 +159,9 @@ export default function StartScreen() {
         }}
       >
         <div style={{ color: "rgba(255,255,255,0.55)", fontSize: 11, lineHeight: 1.8, textAlign: "center" }}>
-          <div>SPACE / TAP to Jump</div>
+          <div>{copy.instructionJump}</div>
           <div>
-            <span style={{ color: "#FF69B4" }}>&#9829;</span> Collect hearts!
+            <span style={{ color: "#FF69B4" }}>&#9829;</span> {copy.instructionHearts}
           </div>
         </div>
       </div>
@@ -180,12 +182,12 @@ export default function StartScreen() {
           textTransform: "uppercase",
         }}
       >
-        Tap to Start
+        {copy.tapToStart}
       </button>
 
       {/* Back link */}
       <a
-        href="/"
+        href={copy.invitationHref}
         onClick={(e) => e.stopPropagation()}
         style={{
           color: "rgba(255,255,255,0.25)",
@@ -195,7 +197,7 @@ export default function StartScreen() {
           letterSpacing: "0.1em",
         }}
       >
-        &larr; Back to Invitation
+        &larr; {copy.backToInvitation}
       </a>
 
       <style>{`
