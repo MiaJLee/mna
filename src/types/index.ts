@@ -9,6 +9,10 @@ export interface Person {
 	childhoodPhoto?: string
 	birthInfo?: string
 	description?: string
+	/** ABOUT US 프로필 */
+	mbti?: string
+	childhoodDream?: string
+	favoriteThings?: string[]
 }
 
 export interface WeddingVenue {
@@ -70,6 +74,9 @@ export interface Labels {
 	// 소개
 	aboutUsTitle: string
 	aboutUsSubtitle: string
+	profileMbti: string
+	profileChildhoodDream: string
+	profileFavoriteThings: string
 
 	// 캘린더
 	countdownLabels: { days: string; hours: string; min: string; sec: string }
@@ -125,6 +132,12 @@ export interface Labels {
 		rsvp: string
 		share: string
 	}
+
+	/** 고정 언어 전환 (맨 위로 버튼 위) */
+	languageSwitchToEn: string
+	languageSwitchToKo: string
+	languageSwitchToEnAria: string
+	languageSwitchToKoAria: string
 }
 
 export interface WeddingConfig {

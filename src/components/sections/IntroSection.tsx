@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react'
 import ImageWithFallback from '@/components/ui/ImageWithFallback'
+import LanguageToggleButton from '@/components/ui/LanguageToggleButton'
 import type { WeddingConfig } from '@/types'
 import { withBasePath } from '@/config/basePath'
 import { parseWeddingDate, formatDotDate, formatTime } from '@/lib/weddingDate'
@@ -61,10 +62,18 @@ export default function IntroSection({ config }: { config: WeddingConfig }) {
 				</p>
 			</div>
 
-			{/* 모바일에서만 스크롤 화살표 - 하단 고정 */}
-			<div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce opacity-50 lg:hidden">
+			{/* 한/영: 인트로 하단 우측 */}
+			<div className="absolute bottom-8 right-4 z-20 lg:bottom-10 lg:right-6">
+				<LanguageToggleButton
+					labels={config.labels}
+					className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white bg-transparent text-xs font-semibold text-white opacity-70 transition-opacity transition-colors hover:opacity-100 hover:bg-white/10"
+				/>
+			</div>
+
+			{/* 모바일만 스크롤 화살표 — 하단 중앙 */}
+			<div className="absolute bottom-8 left-1/2 z-20 -translate-x-1/2 animate-bounce opacity-50 lg:hidden">
 				<svg
-					className="w-5 h-5 text-white"
+					className="h-5 w-5 text-white"
 					fill="none"
 					viewBox="0 0 24 24"
 					stroke="currentColor"

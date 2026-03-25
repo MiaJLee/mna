@@ -15,6 +15,9 @@ export const weddingConfig: WeddingConfig = {
 		childhoodPhoto: '/images/groom-baby.webp',
 		birthInfo: '1996년 2월 서울 출생',
 		description: '감성파 과학소년 🧪',
+		mbti: 'ISFJ \n용감한 수호자',
+		childhoodDream: '우주 과학자',
+		favoriteThings: ['풋살', '프라모델 만들기', '게임'],
 	},
 	bride: {
 		role: '신부',
@@ -27,6 +30,9 @@ export const weddingConfig: WeddingConfig = {
 		childhoodPhoto: '/images/bride-baby.webp',
 		birthInfo: '1995년 8월 부산 출생',
 		description: '호기심 많은 장난꾸러기 🎈',
+		mbti: 'ESFJ \n사교적인 외교관',
+		childhoodDream: 'CEO, 디자이너',
+		favoriteThings: ['지구여행', '요리', '독서'],
 	},
 
 	// ── 예식 정보 ──────────────────────────────────

@@ -16,6 +16,9 @@ export const labelsKo: Labels = {
 
 	aboutUsTitle: 'ABOUT US',
 	aboutUsSubtitle: '하나로 이어진 두개의 우주',
+	profileMbti: 'MBTI',
+	profileChildhoodDream: '어린 시절 꿈',
+	profileFavoriteThings: '좋아하는 것',
 
 	countdownLabels: { days: 'Days', hours: 'Hours', min: 'Min', sec: 'Sec' },
 	googleCalendar: '📅 Google 캘린더에 추가하기',
@@ -64,4 +67,9 @@ export const labelsKo: Labels = {
 		rsvp: '참석여부',
 		share: '공유',
 	},
+
+	languageSwitchToEn: 'EN',
+	languageSwitchToKo: '한',
+	languageSwitchToEnAria: 'English version',
+	languageSwitchToKoAria: '한국어로 보기',
 }

@@ -15,6 +15,9 @@ export const weddingConfigEn: WeddingConfig = {
 		relation: "'s Son",
 		birthInfo: 'Born Feb 1996, Seoul',
 		description: 'Sentimental science boy 🧪',
+		mbti: 'ISFJ \nTurbulent defender',
+		childhoodDream: 'Space scientist',
+		favoriteThings: ['Futsal', 'Building plastic models', 'Games'],
 	},
 	bride: {
 		...koConfig.bride,
@@ -25,6 +28,9 @@ export const weddingConfigEn: WeddingConfig = {
 		relation: "'s Daughter",
 		birthInfo: 'Born Aug 1995, Busan',
 		description: 'Curious little troublemaker 🎈',
+		mbti: 'ESFJ \nFriendly Consul',
+		childhoodDream: 'CEO, Designer',
+		favoriteThings: ['Travel', 'Cooking', 'Reading'],
 	},
 
 	venue: {
@@ -50,8 +56,6 @@ as we begin this journey together.`,
 
 	flowerDeclineMessage:
 		'Your warm wishes are the greatest gift.\nIn lieu of flowers, please share your heartfelt congratulations.',
-
-
 
 	transport: [
 		{
