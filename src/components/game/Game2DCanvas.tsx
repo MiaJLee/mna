@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useCallback } from "react";
+import { useRef, useEffect, useCallback, useLayoutEffect } from "react";
 import { useGameState } from "./hooks/useGameState";
 import { GAME_CONFIG } from "./config/gameConfig";
 import type { ObstacleData, CollectibleData } from "@/types/game";
@@ -455,10 +455,175 @@ function spawnHeart(): CollectibleData {
   };
 }
 
+// ── Helper: 패러글라이드 + 하늘 레이저 ───────────
+type HelperPhase = {
+  character: "bride" | "groom";
+  mode: "enter" | "orbit" | "exit";
+  enterProgress: number;
+  glideX: number;
+  glideY: number;
+  laserMs: number;
+};
+
+type HelperLaserBeam = {
+  x: number;
+  age: number;
+  zapped: boolean;
+};
+
+function pushObstacleDestroyParticles(
+  particles: Particle[],
+  obs: ObstacleData,
+  pxSize: number
+) {
+  const cx = obs.x + obs.width / 2;
+  const cy = obs.y + obs.height / 2;
+  const n = 32;
+  for (let i = 0; i < n; i++) {
+    const ang = (i / n) * Math.PI * 2 + Math.random() * 0.4;
+    const sp = 4 + Math.random() * 9;
+    particles.push({
+      x: cx + (Math.random() - 0.5) * obs.width * 0.5,
+      y: cy + (Math.random() - 0.5) * obs.height * 0.5,
+      vx: Math.cos(ang) * sp + (Math.random() - 0.5) * 3,
+      vy: Math.sin(ang) * sp - 2 + (Math.random() - 0.5) * 4,
+      life: 35 + Math.random() * 28,
+      maxLife: 65,
+      color:
+        i % 5 === 0
+          ? "#FF4500"
+          : i % 5 === 1
+            ? "#FFD700"
+            : i % 5 === 2
+              ? COLORS.cakePink
+              : i % 5 === 3
+                ? "#FFFFFF"
+                : "#7FDBFF",
+      size: Math.random() < 0.35 ? pxSize * 2 : pxSize,
+    });
+  }
+  for (let i = 0; i < 10; i++) {
+    particles.push({
+      x: cx,
+      y: cy,
+      vx: (Math.random() - 0.5) * 14,
+      vy: (Math.random() - 0.5) * 14 - 5,
+      life: 20 + Math.random() * 15,
+      maxLife: 35,
+      color: i % 2 === 0 ? "#FFFACD" : "#FF69B4",
+      size: pxSize,
+    });
+  }
+}
+
+function zapObstaclesInLaserColumn(
+  obstacles: ObstacleData[],
+  laserX: number,
+  halfWidth: number,
+  groundY: number,
+  particles: Particle[],
+  pxSize: number
+): ObstacleData[] {
+  const beamL = laserX - halfWidth;
+  const beamR = laserX + halfWidth;
+  const kept: ObstacleData[] = [];
+  for (const obs of obstacles) {
+    const obsL = obs.x;
+    const obsR = obs.x + obs.width;
+    const hitX = obsR > beamL && obsL < beamR;
+    const groundObs =
+      obs.y + obs.height >= groundY - 12 && obs.y <= groundY + 10;
+    if (hitX && groundObs) {
+      pushObstacleDestroyParticles(particles, obs, pxSize);
+    } else {
+      kept.push(obs);
+    }
+  }
+  return kept;
+}
+
+function drawSkyLaser(
+  ctx: CanvasRenderingContext2D,
+  beamX: number,
+  originX: number,
+  originY: number,
+  groundY: number,
+  frame: number,
+  beamAge: number
+) {
+  const pulse = 0.45 + 0.35 * Math.sin(frame * 0.9 + beamAge * 40);
+  const topY = Math.min(originY + 24, groundY - 40);
+  const midX = beamX;
+  const w = 10 + Math.sin(frame * 0.25) * 2;
+
+  ctx.save();
+  ctx.globalAlpha = Math.min(0.95, 0.25 + pulse * 0.55);
+
+  // 대각 보조선(슈터 → 타겟 상단)
+  ctx.strokeStyle = "rgba(120, 255, 255, 0.35)";
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(originX, originY + 8);
+  ctx.lineTo(midX, topY);
+  ctx.stroke();
+
+  // 수직 메인 빔
+  const grad = ctx.createLinearGradient(midX, topY, midX, groundY);
+  grad.addColorStop(0, "rgba(180, 255, 255, 0.95)");
+  grad.addColorStop(0.45, "rgba(0, 220, 255, 0.75)");
+  grad.addColorStop(1, "rgba(255, 105, 180, 0.25)");
+  ctx.fillStyle = grad;
+  ctx.fillRect(midX - w / 2, topY, w, groundY - topY);
+
+  ctx.globalAlpha = 0.9;
+  ctx.fillStyle = "rgba(255, 255, 255, 0.85)";
+  ctx.fillRect(midX - 2, topY, 4, groundY - topY);
+
+  // 지면 임팩트 플래시 (폭발 느낌)
+  const flash = Math.max(0, 0.85 - beamAge * 2.2);
+  if (flash > 0) {
+    ctx.globalAlpha = flash;
+    ctx.fillStyle = "#FF4500";
+    ctx.fillRect(midX - 28, groundY - 14, 56, 18);
+    ctx.globalAlpha = flash * 0.7;
+    ctx.fillStyle = "#FFD700";
+    ctx.fillRect(midX - 18, groundY - 10, 36, 12);
+  }
+  ctx.restore();
+}
+
+function drawParagliderHelper(
+  ctx: CanvasRenderingContext2D,
+  gx: number,
+  gy: number,
+  frame: number,
+  character: "bride" | "groom"
+) {
+  const rx = Math.round(gx);
+  const ry = Math.round(gy);
+  const canopyTop = ry - 58;
+
+  // 캐노피
+  drawPixelRect(ctx, rx - 56, canopyTop + 16, 112, 8, "rgba(255, 255, 255, 0.92)");
+  drawPixelRect(ctx, rx - 52, canopyTop + 8, 104, 8, "rgba(255, 182, 193, 0.95)");
+  drawPixelRect(ctx, rx - 40, canopyTop, 80, 8, "rgba(255, 228, 240, 0.9)");
+  drawPixelRect(ctx, rx - 24, canopyTop - 8, 48, 8, "rgba(255, 182, 193, 0.85)");
+
+  // 서스펜션
+  drawPixelRect(ctx, rx - 30, canopyTop + 24, 2, 22, "rgba(60, 60, 70, 0.75)");
+  drawPixelRect(ctx, rx + 28, canopyTop + 24, 2, 22, "rgba(60, 60, 70, 0.75)");
+
+  drawPlayer(ctx, rx - 16, ry, frame, false, character);
+}
+
 // ── Main component ──────────────────────────────
 export default function Game2DCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const { state, tick, addScore, collectHeart, gameOver } = useGameState();
+  const stateSnapRef = useRef(state);
+  useLayoutEffect(() => {
+    stateSnapRef.current = state;
+  }, [state]);
 
   // Game state refs (to avoid re-renders during game loop)
   const playerRef = useRef({
@@ -480,6 +645,9 @@ export default function Game2DCanvas() {
   const lastTimeRef = useRef(0);
   const animFrameRef = useRef(0);
   const gameActiveRef = useRef(false);
+  const helperTriggeredRef = useRef(false);
+  const helperPhaseRef = useRef<HelperPhase | null>(null);
+  const activeLasersRef = useRef<HelperLaserBeam[]>([]);
 
   const jump = useCallback(() => {
     const player = playerRef.current;
@@ -550,6 +718,9 @@ export default function Game2DCanvas() {
     scoreRef.current = 0;
     lastTimeRef.current = 0;
     gameActiveRef.current = true;
+    helperTriggeredRef.current = false;
+    helperPhaseRef.current = null;
+    activeLasersRef.current = [];
 
     const { CANVAS_WIDTH: W, CANVAS_HEIGHT: H, GROUND_Y, GRAVITY, PLAYER_WIDTH: PW, PLAYER_HEIGHT: PH } = GAME_CONFIG;
 
@@ -573,6 +744,26 @@ export default function Game2DCanvas() {
         speed + GAME_CONFIG.SPEED_INCREMENT * delta * 60,
         GAME_CONFIG.MAX_SPEED
       );
+
+      // HUD 점수: 이번 프레임 tick 직후와 거의 같도록 거리 증가분(speed·delta)을 가산
+      const snap = stateSnapRef.current;
+      const displayTotal = Math.floor(
+        snap.score + snap.distance + snap.speed * delta
+      );
+      if (
+        !helperTriggeredRef.current &&
+        displayTotal >= GAME_CONFIG.HELPER_SCORE_THRESHOLD
+      ) {
+        helperTriggeredRef.current = true;
+        helperPhaseRef.current = {
+          character: state.character === "bride" ? "groom" : "bride",
+          mode: "enter",
+          enterProgress: 0,
+          glideX: W * 0.56,
+          glideY: -70,
+          laserMs: 0,
+        };
+      }
 
       // Player physics
       player.vy += GRAVITY;
@@ -609,6 +800,67 @@ export default function Game2DCanvas() {
         obs.x -= speed;
       }
       obstaclesRef.current = obstaclesRef.current.filter((o) => o.x > -60);
+
+      // 패러글라이드 헬퍼 + 레이저(장애물 이동 반영 후)
+      const helper = helperPhaseRef.current;
+      if (helper) {
+        if (
+          displayTotal >= GAME_CONFIG.HELPER_SCORE_END &&
+          helper.mode !== "exit"
+        ) {
+          helper.mode = "exit";
+        }
+
+        if (helper.mode === "enter") {
+          helper.enterProgress = Math.min(1, helper.enterProgress + delta * 0.75);
+          const t = helper.enterProgress;
+          const ease = 1 - (1 - t) * (1 - t);
+          helper.glideY = -70 + (104 - -70) * ease;
+          helper.glideX = W * 0.55 + Math.sin(frameRef.current * 0.05) * 36 * ease;
+          if (helper.enterProgress >= 1) helper.mode = "orbit";
+        } else if (helper.mode === "orbit") {
+          helper.glideX = W * 0.52 + Math.sin(frameRef.current * 0.042) * 52;
+          helper.glideY = 100 + Math.sin(frameRef.current * 0.065) * 12;
+          helper.laserMs += delta * 1000;
+          if (helper.laserMs >= GAME_CONFIG.HELPER_LASER_INTERVAL_MS) {
+            helper.laserMs = 0;
+            const onScreen = obstaclesRef.current.filter(
+              (o) => o.x > 20 && o.x < W - 24
+            );
+            let laserX: number;
+            if (onScreen.length > 0) {
+              const pick = onScreen[Math.floor(Math.random() * onScreen.length)];
+              laserX = pick.x + pick.width / 2;
+            } else {
+              laserX = 70 + Math.random() * (W - 140);
+            }
+            activeLasersRef.current.push({ x: laserX, age: 0, zapped: false });
+          }
+        } else if (helper.mode === "exit") {
+          helper.glideY -= 110 * delta;
+          helper.glideX += 55 * delta;
+          if (helper.glideY < -140) {
+            helperPhaseRef.current = null;
+            activeLasersRef.current = [];
+          }
+        }
+      }
+
+      for (const L of activeLasersRef.current) {
+        L.age += delta;
+        if (!L.zapped && L.age >= 0.055) {
+          L.zapped = true;
+          obstaclesRef.current = zapObstaclesInLaserColumn(
+            obstaclesRef.current,
+            L.x,
+            44,
+            GROUND_Y,
+            particlesRef.current,
+            P
+          );
+        }
+      }
+      activeLasersRef.current = activeLasersRef.current.filter((L) => L.age < 0.38);
 
       // Move hearts
       for (const h of heartsRef.current) {
@@ -694,8 +946,35 @@ export default function Game2DCanvas() {
         }
       }
 
+      // 하늘 레이저 (장애물 위)
+      const drawHelper = helperPhaseRef.current;
+      for (const L of activeLasersRef.current) {
+        const ox = drawHelper ? drawHelper.glideX : W * 0.5;
+        const oy = drawHelper ? drawHelper.glideY : 90;
+        drawSkyLaser(
+          ctx!,
+          L.x,
+          ox,
+          oy,
+          GROUND_Y,
+          frameRef.current,
+          L.age
+        );
+      }
+
       // Particles
       drawParticles(ctx!, particlesRef.current);
+
+      // 패러글라이드 헬퍼
+      if (drawHelper) {
+        drawParagliderHelper(
+          ctx!,
+          drawHelper.glideX,
+          drawHelper.glideY,
+          frameRef.current,
+          drawHelper.character
+        );
+      }
 
       // Player
       drawPlayer(ctx!, player.x, player.y, frameRef.current, player.isJumping, state.character);

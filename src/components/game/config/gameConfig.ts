@@ -13,4 +13,10 @@ export const GAME_CONFIG = {
   MIN_SPAWN_INTERVAL: 900,
   HEART_SCORE: 100,
   PIXEL_SIZE: 4,
+  /** 이 점수 이상이면 상대가 패러글라이드로 등장 */
+  HELPER_SCORE_THRESHOLD: 1000,
+  /** 이 점수에 도달하면 레이저 지원 종료 후 퇴장 */
+  HELPER_SCORE_END: 1300,
+  /** 궤도 중 레이저 발사 간격 (ms) */
+  HELPER_LASER_INTERVAL_MS: 320,
 } as const;
